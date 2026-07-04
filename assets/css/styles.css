@@ -3662,20 +3662,38 @@ h6,
 }
 
 .catalog-hero__stats {
+  position: relative;
+  isolation: isolate;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
+  min-height: clamp(17.5rem, 28vw, 23.5rem);
+  align-content: start;
+  justify-items: start;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-tech-white) 22%, transparent);
+  border-radius: var(--ds-radius-xl);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 16%, transparent), transparent 56%),
+    color-mix(in srgb, var(--color-brand-primary) 18%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 26%, transparent),
+    0 1.25rem 3rem color-mix(in srgb, var(--color-brand-primary) 16%, transparent);
+  padding: clamp(0.85rem, 1.8vw, 1.15rem);
 }
 
-.catalog-hero__stats div {
+.catalog-projects-count {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 10.5rem);
   min-width: 0;
   border: 1px solid color-mix(in srgb, var(--color-tech-white) 24%, transparent);
   border-radius: var(--ds-radius-md);
   background:
-    linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 18%, transparent), transparent 54%),
-    color-mix(in srgb, var(--color-brand-primary) 24%, transparent);
-  padding: clamp(0.72rem, 1.35vw, 0.92rem);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 24%, transparent);
+    linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 25%, transparent), transparent 58%),
+    color-mix(in srgb, var(--color-brand-primary) 34%, transparent);
+  padding: clamp(0.78rem, 1.45vw, 1rem);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 28%, transparent),
+    0 0.85rem 1.8rem color-mix(in srgb, var(--color-brand-primary) 16%, transparent);
 }
 
 .catalog-hero__stats strong,
@@ -3695,6 +3713,20 @@ h6,
   color: color-mix(in srgb, var(--color-tech-white) 78%, transparent);
   font-weight: 800;
   line-height: 1.2;
+}
+
+.catalog-hero__model {
+  position: absolute;
+  right: clamp(-8.5rem, -9vw, -5.3rem);
+  bottom: clamp(-5.8rem, -6vw, -3.7rem);
+  z-index: 1;
+  width: clamp(25rem, 43vw, 36rem);
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+  filter:
+    drop-shadow(0 1.5rem 2.4rem color-mix(in srgb, var(--color-brand-primary) 28%, transparent))
+    saturate(1.04);
 }
 
 .catalog-list {
@@ -3824,9 +3856,18 @@ h6,
 
 @media (max-width: 620px) {
   .work-grid,
-  .catalog-grid,
-  .catalog-hero__stats {
+  .catalog-grid {
     grid-template-columns: 1fr;
+  }
+
+  .catalog-hero__stats {
+    min-height: 17rem;
+  }
+
+  .catalog-hero__model {
+    right: -8.5rem;
+    bottom: -5.2rem;
+    width: 29rem;
   }
 
   .catalog-hero__actions {

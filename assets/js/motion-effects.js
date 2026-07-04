@@ -48,6 +48,9 @@
   function finishReveal(elements) {
     elements.forEach(function (element) {
       window.setTimeout(function () {
+        element.style.opacity = "";
+        element.style.transform = "";
+        element.style.filter = "";
         element.style.willChange = "";
       }, 1300);
     });
@@ -181,21 +184,27 @@
       return;
     }
 
-    prepareReveal(heroItems, 32);
-    animate(
-      heroItems,
-      {
-        opacity: 1,
-        transform: "translate3d(0, 0, 0) scale(1)",
-        filter: "blur(0px)"
-      },
-      {
-        delay: stagger(0.06, { startDelay: 0.12 }),
-        duration: 0.95,
-        ease: easeSoft
-      }
-    );
-    finishReveal(heroItems);
+    heroItems.forEach(function (element) {
+      element.style.opacity = "1";
+      element.style.filter = "";
+      element.style.willChange = "transform";
+    });
+
+    try {
+      animate(
+        heroItems,
+        {
+          transform: ["translate3d(0, 18px, 0) scale(0.99)", "translate3d(0, 0, 0) scale(1)"]
+        },
+        {
+          delay: stagger(0.055, { startDelay: 0.08 }),
+          duration: 0.8,
+          ease: easeSoft
+        }
+      );
+    } finally {
+      finishReveal(heroItems);
+    }
   }
 
   function setupSectionReveals() {
@@ -214,7 +223,7 @@
       duration: 1
     });
 
-    queryAll(".work-grid, .catalog-grid, .cards-grid, .segment-grid, .included-grid, .process-grid").forEach(function (grid) {
+    queryAll(".work-grid, .cards-grid, .segment-grid, .included-grid, .process-grid").forEach(function (grid) {
       revealGroup(grid, ":scope > *", {
         amount: 0.14,
         distance: 34,
@@ -223,11 +232,51 @@
       });
     });
 
+    queryAll(".catalog-card").forEach(function (card, index) {
+      if (index < 9) {
+        card.style.opacity = "1";
+        card.style.transform = "";
+        card.style.filter = "";
+        return;
+      }
+
+      revealSingleElement(card, {
+        amount: 0.08,
+        distance: 26,
+        duration: 0.78,
+        margin: "0px 0px -6% 0px"
+      });
+    });
+
     revealSingle(".faq-item, .result-card, .demo-card", {
       amount: 0.2,
       distance: 24,
       duration: 0.8
     });
+  }
+
+  function revealSingleElement(element, options) {
+    prepareReveal([element], options.distance || 28);
+
+    addCleanup(inView(element, function () {
+      animate(
+        element,
+        {
+          opacity: 1,
+          transform: "translate3d(0, 0, 0) scale(1)",
+          filter: "blur(0px)"
+        },
+        {
+          duration: options.duration || 0.9,
+          ease: easeSoft
+        }
+      );
+
+      finishReveal([element]);
+    }, {
+      amount: options.amount || 0.18,
+      margin: options.margin || "0px 0px -10% 0px"
+    }));
   }
 
   function setupInteractiveMotion() {
