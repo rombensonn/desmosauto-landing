@@ -247,6 +247,18 @@
       submitButton.disabled = true;
       submitButton.textContent = "Отправляем заявку...";
 
+      if (form.hasAttribute("data-static-form")) {
+        window.setTimeout(function () {
+          form.reset();
+          formStartedAt = Math.floor(Date.now() / 1000);
+          populateHiddenFields();
+          setStatus("success", "Заявка принята. На опубликованной демо-странице отправка показана без подключения к backend.");
+          submitButton.disabled = false;
+          submitButton.textContent = "Получить демо-сайт";
+        }, 700);
+        return;
+      }
+
       fetch(form.action, {
         method: "POST",
         body: new FormData(form),
