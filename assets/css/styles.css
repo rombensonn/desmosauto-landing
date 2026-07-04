@@ -71,13 +71,14 @@
 }
 
 :root {
+  --crystal-white: #FFFFFF;
   --primary: #134686;
   --secondary: #ED3F27;
   --accent: #FEB21A;
-  --neutral: #FFFFFF;
+  --neutral: var(--crystal-white);
   --font-heading: "AA Stetica", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-body: "LT Superior", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --white: #FFFFFF;
+  --white: var(--crystal-white);
   --text: #1F1F1F;
   --text-muted: #5F5F5F;
   --line: color-mix(in srgb, var(--primary) 16%, var(--white));
@@ -1108,15 +1109,16 @@ li {
 
 /* Visual parity with the archived primary landing */
 :root {
+  --crystal-white: #FFFFFF;
   --color-brand-primary: #134686;
   --color-brand-secondary: #ED3F27;
   --color-brand-accent: #FEB21A;
-  --color-brand-neutral: #FFFFFF;
-  --color-tech-white: #FFFFFF;
+  --color-brand-neutral: var(--crystal-white);
+  --color-tech-white: var(--crystal-white);
   --color-tech-black: #134686;
-  --color-bg-page: var(--color-brand-neutral);
-  --color-bg-section: var(--color-tech-white);
-  --color-bg-surface: var(--color-tech-white);
+  --color-bg-page: var(--crystal-white);
+  --color-bg-section: var(--crystal-white);
+  --color-bg-surface: var(--crystal-white);
   --color-bg-hero: var(--color-brand-primary);
   --color-bg-footer: var(--color-brand-primary);
   --color-text-primary: var(--color-brand-primary);
@@ -1174,6 +1176,16 @@ li {
 body {
   background: var(--color-bg-page);
   color: var(--color-text-secondary);
+}
+
+html,
+body,
+main,
+.catalog-page,
+.section--light,
+.catalog-list,
+.work-examples {
+  background: var(--crystal-white);
 }
 
 .container {
