@@ -3594,6 +3594,27 @@ h6,
   color: var(--color-text-inverse);
 }
 
+.site-nav a.site-nav__catalog:hover,
+.site-nav a.site-nav__catalog:focus-visible,
+.site-nav a.site-nav__catalog.is-current:hover,
+.site-nav a.site-nav__catalog.is-current:focus-visible {
+  border-color: color-mix(in srgb, var(--color-brand-secondary) 72%, var(--color-tech-white));
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--color-brand-secondary) 86%, var(--color-brand-primary)), var(--color-brand-secondary));
+  color: var(--color-text-inverse);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 20%, transparent),
+    0 0.65rem 1.35rem color-mix(in srgb, var(--color-brand-secondary) 22%, transparent);
+}
+
+.site-nav a.site-nav__catalog:hover::before,
+.site-nav a.site-nav__catalog:focus-visible::before,
+.site-nav a.site-nav__catalog.is-current:hover::before,
+.site-nav a.site-nav__catalog.is-current:focus-visible::before {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
 .work-catalog-cta {
   display: flex;
   justify-content: center;
