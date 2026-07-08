@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ДесмосАвто">
-  <rect width="64" height="64" rx="12" fill="#0F172A"/>
-  <path d="M16 42V18h13c7.6 0 12.8 4.8 12.8 12s-5.2 12-12.8 12H16Zm8-7h4.8c3.2 0 5.2-1.9 5.2-5s-2-5-5.2-5H24v10Z" fill="#FFFFFF"/>
-  <path d="M41 42 49.5 18H57l-8.8 24H41Z" fill="#38BDF8"/>
-</svg>
