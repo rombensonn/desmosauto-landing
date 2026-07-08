@@ -1,5 +1,6 @@
 import { LeadForm } from "@/components/LeadForm";
 import Image from "next/image";
+import { assetPath } from "@/lib/site-paths";
 
 type CTASectionProps = {
   title: string;
@@ -41,7 +42,7 @@ export function CTASection({ title, text, submitLabel, source }: CTASectionProps
               >
                 <span className="relative h-11 w-11 shrink-0">
                   <Image
-                    src={item.icon}
+                    src={assetPath(item.icon)}
                     alt=""
                     fill
                     unoptimized

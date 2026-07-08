@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import { ArrowRight, Gauge, Layers3, MessageCircle, Route, type LucideIcon } from "lucide-react";
 import { CleanAnchorLink } from "@/components/CleanAnchorLink";
+import { assetPath } from "@/lib/site-paths";
 
 type StackLayer = {
   tag: string;
@@ -97,7 +98,7 @@ export function ScrollStackShowcase() {
 
                 <div className="scroll-stack-media">
                   <Image
-                    src={layer.image}
+                    src={assetPath(layer.image)}
                     alt=""
                     width={640}
                     height={460}

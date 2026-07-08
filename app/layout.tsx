@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { HashScrollGuard } from "@/components/HashScrollGuard";
 import { Header } from "@/components/Header";
 import { siteConfig } from "@/lib/seo";
+import { assetPath } from "@/lib/site-paths";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
     images: ["/og/desmosauto-og.svg"]
   },
   icons: {
-    icon: "/icon.svg"
+    icon: assetPath("/icon.svg")
   }
 };
 

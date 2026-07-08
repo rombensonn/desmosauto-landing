@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import type { Project } from "@/data/projects";
+import { defaultSiteUrl } from "@/lib/site-paths";
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || defaultSiteUrl;
 
 export const siteConfig = {
   name: "ДесмосАвто",

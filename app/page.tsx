@@ -21,6 +21,7 @@ import {
   serviceJsonLd,
   websiteJsonLd
 } from "@/lib/seo";
+import { assetPath } from "@/lib/site-paths";
 
 export const metadata = createPageMetadata({
   title: "ДесмосАвто — сайт для автосервиса за сутки без предоплаты",
@@ -186,14 +187,14 @@ const advantageItems = [
 ];
 
 const serviceModels: Record<string, string> = {
-  "auto-service-landing": "/images/service-models/auto-service-landing.png",
-  "sto-multipage": "/images/service-models/sto-multipage.png",
-  "tire-service": "/images/service-models/tire-service.png",
-  detailing: "/images/service-models/detailing.png",
-  "body-repair": "/images/service-models/body-repair.png",
-  diagnostics: "/images/service-models/diagnostics.png",
-  inspection: "/images/service-models/inspection.png",
-  "auto-parts": "/images/service-models/auto-parts.png"
+  "auto-service-landing": assetPath("/images/service-models/auto-service-landing.png"),
+  "sto-multipage": assetPath("/images/service-models/sto-multipage.png"),
+  "tire-service": assetPath("/images/service-models/tire-service.png"),
+  detailing: assetPath("/images/service-models/detailing.png"),
+  "body-repair": assetPath("/images/service-models/body-repair.png"),
+  diagnostics: assetPath("/images/service-models/diagnostics.png"),
+  inspection: assetPath("/images/service-models/inspection.png"),
+  "auto-parts": assetPath("/images/service-models/auto-parts.png")
 };
 
 export default function HomePage() {
@@ -296,7 +297,7 @@ export default function HomePage() {
                   </div>
                   <div className="model-split-media">
                     <Image
-                      src={item.model}
+                      src={assetPath(item.model)}
                       alt=""
                       width={420}
                       height={300}
@@ -338,7 +339,7 @@ export default function HomePage() {
               </div>
               <div className="model-split-media">
                 <Image
-                  src={item.model}
+                  src={assetPath(item.model)}
                   alt=""
                   width={420}
                   height={300}
@@ -517,7 +518,7 @@ export default function HomePage() {
             <div key={item.title} className="surface card-hover group flex min-h-[410px] flex-col overflow-hidden rounded-lg" data-gsap-card>
               <div className="trust-model-stage bg-[#f4f5f6]">
                 <Image
-                  src={item.model}
+                  src={assetPath(item.model)}
                   alt=""
                   width={520}
                   height={380}

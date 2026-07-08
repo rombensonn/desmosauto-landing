@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CleanAnchorLink } from "@/components/CleanAnchorLink";
 import type { Project } from "@/data/projects";
+import { assetPath } from "@/lib/site-paths";
 
 type ProjectCardProps = {
   project: Project;
@@ -72,7 +73,7 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
 }
 
 function ProjectPreview({ project }: { project: Project }) {
-  const previewSrc = project.liveUrl ? `/project-previews/${project.slug}.jpg` : null;
+  const previewSrc = project.liveUrl ? assetPath(`/project-previews/${project.slug}.jpg`) : null;
 
   return (
     <div className="overflow-hidden border-b border-neutral-200 bg-white" aria-hidden="true">
