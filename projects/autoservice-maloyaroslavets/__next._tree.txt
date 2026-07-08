@@ -1,2 +1,2 @@
-:HL["/desmosauto-landing/_next/static/chunks/0y36puocyut85.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"autoservice-maloyaroslavets","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"V4zX1YwCB2FUGpkuXn993"}
+:HL["/desmosauto-landing/_next/static/chunks/2hf1w0a_swtgk.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"autoservice-maloyaroslavets","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"kPaQjCOQKHfKYnUWVfaPK"}
