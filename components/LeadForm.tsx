@@ -12,7 +12,7 @@ type LeadFormProps = {
 };
 
 type FormErrors = Partial<
-  Record<"name" | "phone" | "privacyPolicyAccepted" | "personalDataConsent" | "form", string>
+  Record<"name" | "phone" | "promoCode" | "privacyPolicyAccepted" | "personalDataConsent" | "form", string>
 >;
 type FormErrorKey = keyof FormErrors;
 type PhoneFormatResult = {
@@ -23,6 +23,7 @@ type PhoneFormatResult = {
 const initialFields = {
   name: "",
   phone: "",
+  promoCode: "",
   website: "",
   privacyPolicyAccepted: false,
   personalDataConsent: false
@@ -110,6 +111,10 @@ function formatRussianPhone(value: string): string {
   const localDigits = getRussianPhoneLocalDigits(value);
 
   return formatRussianPhoneDigits(localDigits, shouldShowRussianPhonePrefix(value, localDigits));
+}
+
+function formatPromoCodeInput(value: string) {
+  return value.toUpperCase().replace(/\s+/g, "").slice(0, 32);
 }
 
 function getLocalDigitOffsetBeforeCaret(value: string, caretPosition: number | null) {
@@ -280,7 +285,8 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
         setFields((current) => ({
           ...current,
           name: typeof parsedDraft.name === "string" ? parsedDraft.name : current.name,
-          phone: typeof parsedDraft.phone === "string" ? parsedDraft.phone : current.phone
+          phone: typeof parsedDraft.phone === "string" ? parsedDraft.phone : current.phone,
+          promoCode: typeof parsedDraft.promoCode === "string" ? parsedDraft.promoCode : current.promoCode
         }));
       });
     } catch {
@@ -296,7 +302,7 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
 
   useEffect(() => {
     try {
-      if (!fields.name && !fields.phone) {
+      if (!fields.name && !fields.phone && !fields.promoCode) {
         window.sessionStorage.removeItem(draftKey);
         return;
       }
@@ -305,13 +311,14 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
         draftKey,
         JSON.stringify({
           name: fields.name,
-          phone: fields.phone
+          phone: fields.phone,
+          promoCode: fields.promoCode
         })
       );
     } catch {
       // Session storage can be unavailable in strict browser privacy modes.
     }
-  }, [draftKey, fields.name, fields.phone]);
+  }, [draftKey, fields.name, fields.phone, fields.promoCode]);
 
   function validateCurrentFields() {
     const result = validateLeadInput(fields);
@@ -381,6 +388,7 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
         body: JSON.stringify({
           name: fields.name,
           phone: fields.phone,
+          promoCode: fields.promoCode,
           website: fields.website,
           privacyPolicyAccepted: fields.privacyPolicyAccepted,
           personalDataConsent: fields.personalDataConsent,
@@ -400,6 +408,7 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
         setErrors({
           name: result?.errors?.name,
           phone: result?.errors?.phone,
+          promoCode: result?.errors?.promoCode,
           privacyPolicyAccepted: result?.errors?.privacyPolicyAccepted,
           personalDataConsent: result?.errors?.personalDataConsent,
           form: result?.message || fallbackMessage
@@ -485,6 +494,33 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
           {errors.phone ? (
             <p id={`${source}-phone-error`} className="mt-2 text-sm font-semibold text-red-700" role="alert">
               {errors.phone}
+            </p>
+          ) : null}
+        </div>
+
+        <div className={compact ? "md:col-span-2" : ""}>
+          <label className="mb-2 block text-sm font-bold text-neutral-900" htmlFor={`${source}-promo-code`}>
+            Промокод, если есть
+          </label>
+          <input
+            id={`${source}-promo-code`}
+            name="promoCode"
+            type="text"
+            autoComplete="off"
+            value={fields.promoCode}
+            onChange={(event) => {
+              setFields((current) => ({ ...current, promoCode: formatPromoCodeInput(event.target.value) }));
+              clearErrors("promoCode");
+            }}
+            className="min-h-12 w-full rounded-lg border border-neutral-300 bg-white px-4 text-base text-neutral-950 transition-colors placeholder:text-neutral-400 focus:border-neutral-950 focus:bg-white"
+            placeholder="Например, DEMO24"
+            maxLength={32}
+            aria-invalid={Boolean(errors.promoCode)}
+            aria-describedby={errors.promoCode ? `${source}-promo-code-error` : undefined}
+          />
+          {errors.promoCode ? (
+            <p id={`${source}-promo-code-error`} className="mt-2 text-sm font-semibold text-red-700" role="alert">
+              {errors.promoCode}
             </p>
           ) : null}
         </div>

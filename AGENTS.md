@@ -320,7 +320,7 @@ Keep this page slightly more editorial/catalog-like than the home page. It is pr
 
 - Next.js App Router with `output: "export"`.
 - React, TypeScript, Tailwind CSS, GSAP/framer-motion/motion where already used.
-- PHP for lead submission at `api/leads.php`.
+- PHP for lead submission at `api/leads.php` and Telegram promo-code administration at `api/telegram-bot.php`.
 - Package manager: `pnpm`.
 - Static export output directory: `out/`.
 - Deployment package output directory: `output/`.
@@ -335,6 +335,8 @@ Keep this page slightly more editorial/catalog-like than the home page. It is pr
 - `data/services.ts` - service page data.
 - `data/faqs.ts` - FAQ data and JSON-LD content.
 - `backend/api/leads.php` - PHP lead handler.
+- `backend/api/telegram-bot.php` - Telegram webhook for promo-code administration.
+- `backend/api/_common.php` and `backend/api/_promo-codes.php` - shared PHP API helpers and promo-code storage logic.
 - `backend/api/leads.config.example.php` - public example config only.
 - `backend/api/leads.config.php` - local ignored real config with Telegram credentials.
 - `deploy/reg-ru-host0/.htaccess` - required REG.RU clean URL rules.
@@ -382,7 +384,7 @@ Use these checks before handing work back when relevant:
 ```bash
 pnpm typecheck
 NEXT_PUBLIC_LEAD_ENDPOINT=/api/leads.php pnpm build
-php -l backend/api/leads.php
+find backend/api -name '*.php' -print0 | xargs -0 -n1 php -l
 ```
 
 The default `pnpm lint` command may scan generated folders if they exist. Prefer:
@@ -407,6 +409,7 @@ Expected result with real Telegram config: `200 OK` and `{"ok":true,...}`.
 - Validation errors must appear only after the user submits an incomplete form.
 - Do not validate on input blur.
 - Clear a field's error when the user changes that field.
+- Keep `promoCode` optional. Blank promo code is valid; nonblank promo errors come from the backend after submit.
 - Keep the privacy policy and personal data consent checkboxes required.
 - The honeypot field `website` must remain hidden and must continue to short-circuit spam.
 - The frontend should show backend `message` values when the backend returns an error.
@@ -423,11 +426,15 @@ Expected result with real Telegram config: `200 OK` and `{"ok":true,...}`.
 - `backend/api/leads.php` must:
   - accept POST JSON only;
   - handle CORS for the configured origins;
-  - validate name, phone, policy acceptance, and personal data consent;
+  - validate name, phone, policy acceptance, personal data consent, and any submitted promo code;
   - save every valid lead to `storage/leads.jsonl`;
+  - store applied promo-code snapshots in the lead record, not only the raw typed code;
   - protect storage with `.htaccess` and `index.html`;
   - send Telegram notifications after saving;
   - log notification failures to `storage/notification-errors.log`.
+- Promo codes live in `storage/promocodes.json` and promo admin audit events live in `storage/promo-events.jsonl`.
+- `backend/api/telegram-bot.php` must reject requests without the configured `X-Telegram-Bot-Api-Secret-Token` and allow promo-code changes only for configured Telegram admin user ids.
+- `/promo_remove` soft-disables a promo code instead of deleting it, so old leads keep historical promo data.
 - Production must not show a false success if Telegram did not accept the notification.
 - If Telegram is required and missing/failing, the backend should return a non-2xx response with a user-safe message.
 - Keep detailed Telegram/API failure reasons in `storage/notification-errors.log`, not in public UI text.
@@ -453,9 +460,12 @@ backend/api/leads.config.php
 ```php
 'telegram_required' => true,
 'telegram_chat_ids' => ['-1003658178524'],
+'telegram_webhook_secret' => 'non-empty-secret-if-webhook-enabled',
+'telegram_admin_ids' => ['<telegram-user-id>'],
 ```
 
 - The bot token must be copied from `backend/api/leads.config.php` into the archive's `api/leads.config.php`.
+- For promo-code Telegram management, also copy `telegram_webhook_secret` and numeric `telegram_admin_ids` from the ignored production config.
 - If `backend/api/leads.config.php` is missing, ask the user for the Telegram bot token and chat id before creating a final deployment archive.
 - Do not create a "ready" archive with blank Telegram credentials.
 
@@ -470,6 +480,9 @@ index.html
 .htaccess
 _next/
 api/leads.php
+api/telegram-bot.php
+api/_common.php
+api/_promo-codes.php
 api/leads.config.php
 storage/.htaccess
 storage/index.html
@@ -479,7 +492,7 @@ Critical rules:
 
 - Use `NEXT_PUBLIC_LEAD_ENDPOINT=/api/leads.php pnpm build` before packaging.
 - Copy `deploy/reg-ru-host0/.htaccess` to the archive root as `.htaccess`.
-- Copy `backend/api/leads.php` to the archive as `api/leads.php`.
+- Copy the PHP API runtime files to the archive: `backend/api/leads.php`, `backend/api/telegram-bot.php`, `backend/api/_common.php`, and `backend/api/_promo-codes.php`.
 - Copy `backend/api/leads.config.php` to the archive as `api/leads.config.php`.
 - Do not use `backend/api/leads.config.example.php` as the final production config.
 - Create `storage/` in the archive, but do not include local test leads or local notification logs.
@@ -496,10 +509,13 @@ mkdir -p "$ARCHIVE_DIR/api" "$ARCHIVE_DIR/storage"
 rsync -a out/ "$ARCHIVE_DIR/"
 cp deploy/reg-ru-host0/.htaccess "$ARCHIVE_DIR/.htaccess"
 cp backend/api/leads.php "$ARCHIVE_DIR/api/leads.php"
+cp backend/api/telegram-bot.php "$ARCHIVE_DIR/api/telegram-bot.php"
+cp backend/api/_common.php "$ARCHIVE_DIR/api/_common.php"
+cp backend/api/_promo-codes.php "$ARCHIVE_DIR/api/_promo-codes.php"
 cp backend/api/leads.config.php "$ARCHIVE_DIR/api/leads.config.php"
 cp backend/storage/.htaccess "$ARCHIVE_DIR/storage/.htaccess" 2>/dev/null || printf 'Require all denied\nDeny from all\n' > "$ARCHIVE_DIR/storage/.htaccess"
 touch "$ARCHIVE_DIR/storage/index.html"
-rm -f "$ARCHIVE_DIR/storage/leads.jsonl" "$ARCHIVE_DIR/storage/notification-errors.log"
+rm -f "$ARCHIVE_DIR/storage/leads.jsonl" "$ARCHIVE_DIR/storage/notification-errors.log" "$ARCHIVE_DIR/storage/promocodes.json" "$ARCHIVE_DIR/storage/promo-events.jsonl"
 (cd "$ARCHIVE_DIR" && zip -r -X "../$(basename "$ARCHIVE_DIR").zip" .)
 ```
 

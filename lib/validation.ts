@@ -1,6 +1,7 @@
 export type LeadPayload = {
   name: string;
   phone: string;
+  promoCode?: string;
   website?: string;
   privacyPolicyAccepted?: boolean;
   personalDataConsent?: boolean;
@@ -14,13 +15,14 @@ export type LeadPayload = {
 
 export type ValidationResult = {
   valid: boolean;
-  errors: Partial<Record<"name" | "phone" | "privacyPolicyAccepted" | "personalDataConsent", string>>;
+  errors: Partial<Record<"name" | "phone" | "promoCode" | "privacyPolicyAccepted" | "personalDataConsent", string>>;
 };
 
 export function normalizeLeadPayload(payload: Partial<LeadPayload>): LeadPayload {
   return {
     name: String(payload.name || "").trim(),
     phone: String(payload.phone || "").trim(),
+    promoCode: String(payload.promoCode || "").trim(),
     website: String(payload.website || "").trim(),
     privacyPolicyAccepted: Boolean(payload.privacyPolicyAccepted),
     personalDataConsent: Boolean(payload.personalDataConsent),

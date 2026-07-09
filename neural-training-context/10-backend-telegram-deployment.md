@@ -2,17 +2,21 @@
 
 ## PHP lead backend
 
-Файл:
+Файлы:
 
 - `backend/api/leads.php`.
+- `backend/api/telegram-bot.php`.
+- `backend/api/_common.php`.
+- `backend/api/_promo-codes.php`.
 
 Назначение:
 
 - принять заявку с сайта;
 - проверить формат;
-- валидировать имя, телефон и согласия;
+- валидировать имя, телефон, согласия и необязательный промокод;
 - отсеять spam через honeypot `website`;
 - сохранить заявку в `storage/leads.jsonl`;
+- сохранить снимок примененного промокода в заявке;
 - отправить уведомление в Telegram;
 - вернуть frontend понятный JSON-ответ.
 
@@ -42,6 +46,30 @@ Production Telegram обязателен. Это значит:
 ```text
 storage/notification-errors.log
 ```
+
+## Промокоды
+
+Промокоды хранятся в:
+
+```text
+storage/promocodes.json
+```
+
+Журнал действий администратора:
+
+```text
+storage/promo-events.jsonl
+```
+
+Пустой промокод в заявке валиден. Указанный промокод должен существовать, быть активным, не истечь и состоять из латинских букв, цифр, `_` или `-`.
+
+Управление идёт через Telegram webhook:
+
+```text
+api/telegram-bot.php
+```
+
+Webhook должен быть защищён `X-Telegram-Bot-Api-Secret-Token`, а команды доступны только user id из `telegram_admin_ids`.
 
 ## Секреты
 
@@ -76,6 +104,9 @@ index.html
 .htaccess
 _next/
 api/leads.php
+api/telegram-bot.php
+api/_common.php
+api/_promo-codes.php
 api/leads.config.php
 storage/.htaccess
 storage/index.html
@@ -104,6 +135,9 @@ NEXT_PUBLIC_LEAD_ENDPOINT=/api/leads.php pnpm build
 - `out/` как корень сайта;
 - `deploy/reg-ru-host0/.htaccess` как `.htaccess`;
 - `backend/api/leads.php` как `api/leads.php`;
+- `backend/api/telegram-bot.php` как `api/telegram-bot.php`;
+- `backend/api/_common.php` как `api/_common.php`;
+- `backend/api/_promo-codes.php` как `api/_promo-codes.php`;
 - `backend/api/leads.config.php` как `api/leads.config.php`;
 - защищенную папку `storage/`.
 
@@ -111,6 +145,8 @@ NEXT_PUBLIC_LEAD_ENDPOINT=/api/leads.php pnpm build
 
 - локальные `leads.jsonl`;
 - локальные `notification-errors.log`;
+- локальные `promocodes.json`;
+- локальные `promo-events.jsonl`;
 - `.next/`;
 - исходники проекта;
 - node_modules.
@@ -130,4 +166,3 @@ rg -n "127\\.0\\.0\\.1:8081|localhost:8081" output/<archive-folder> --glob '!**/
 ```
 
 Ожидание: совпадений нет.
-
