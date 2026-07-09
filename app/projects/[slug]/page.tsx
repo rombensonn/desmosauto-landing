@@ -1,11 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ExternalLink, GitBranch, MonitorUp, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, MonitorUp, ShieldCheck } from "lucide-react";
 import { CleanAnchorLink } from "@/components/CleanAnchorLink";
 import { CTASection } from "@/components/CTASection";
 import { SeoJsonLd } from "@/components/SeoJsonLd";
 import { getProjectBySlug, projects } from "@/data/projects";
 import { breadcrumbJsonLd, createPageMetadata, siteConfig } from "@/lib/seo";
+import { assetPath } from "@/lib/site-paths";
 
 type CasePageProps = {
   params: Promise<{ slug: string }>;
@@ -82,41 +84,43 @@ export default async function ProjectCasePage({ params }: CasePageProps) {
                 {project.title}
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-700">{project.mainGoal}.</p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <div className="case-hero-actions mt-7">
                 {project.liveUrl ? (
-                  <a href={project.liveUrl} target="_blank" rel="noreferrer" className="btn-primary">
-                    Открыть опубликованный проект
+                  <a href={project.liveUrl} target="_blank" rel="noreferrer" className="btn-primary case-hero-action">
+                    Открыть проект
                     <ExternalLink aria-hidden="true" size={18} />
                   </a>
                 ) : null}
-                <CleanAnchorLink href="#lead-form" className="btn-secondary">
+                <CleanAnchorLink href="#lead-form" className="btn-secondary case-hero-action">
                   Получить похожий сайт
                   <ArrowRight aria-hidden="true" size={18} />
                 </CleanAnchorLink>
               </div>
             </div>
 
-            <div className="surface overflow-hidden rounded-lg">
-              <div className="flex items-center justify-between gap-3 border-b border-neutral-800 bg-neutral-950 px-4 py-3 text-white">
-                <div className="flex items-center gap-2 text-sm font-bold">
-                  <MonitorUp aria-hidden="true" size={18} className="text-[#ffb08a]" />
-                  Опубликованная версия
+            <div className="case-browser-preview">
+              <div className="case-browser-chrome">
+                <div className="case-browser-dots" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
                 </div>
-                {project.liveUrl ? (
-                  <a href={project.liveUrl} target="_blank" rel="noreferrer" className="text-xs font-bold text-white/72 transition-colors hover:text-white">
-                    Опубликован
-                  </a>
-                ) : null}
+                <div className="case-browser-address">
+                  <MonitorUp aria-hidden="true" size={14} />
+                  Safari preview
+                </div>
               </div>
-              {project.liveUrl ? (
-                <iframe
-                  src={project.liveUrl}
-                  title={`Опубликованный проект: ${project.title}`}
-                  className="h-[520px] w-full bg-white"
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              <div className="case-browser-screen relative">
+                <Image
+                  src={assetPath(`/project-previews/${project.slug}.jpg`)}
+                  alt={`Скриншот hero-блока проекта ${project.title}`}
+                  fill
+                  className="case-browser-image"
+                  sizes="(min-width: 1024px) 48vw, 92vw"
+                  priority
+                  unoptimized
                 />
-              ) : null}
+              </div>
             </div>
           </div>
         </div>
@@ -158,27 +162,6 @@ export default async function ProjectCasePage({ params }: CasePageProps) {
               <p className="mt-3 leading-7 text-slate-700">{project.caseData.leadFormLogic}</p>
               <p className="mt-3 leading-7 text-slate-700">{project.caseData.mobileLogic}</p>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="pb-16 md:pb-24">
-        <div className="container-page">
-          <div className="surface rounded-lg p-6 md:p-8">
-            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <p className="eyebrow">Итог</p>
-                <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-700">
-                  {project.caseData.result}
-                </p>
-              </div>
-              {project.repositoryUrl ? (
-                <a href={project.repositoryUrl} target="_blank" rel="noreferrer" className="btn-secondary shrink-0">
-                  Репозиторий проекта
-                  <GitBranch aria-hidden="true" size={18} />
-                </a>
-              ) : null}
-            </div>
           </div>
         </div>
       </section>

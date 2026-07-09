@@ -8,16 +8,17 @@ import { CleanAnchorLink } from "@/components/CleanAnchorLink";
 
 const navItems = [
   { label: "Главная", href: "/" },
+  { label: "Услуги", href: "/services" },
   { label: "Кейсы", href: "/projects" },
-  { label: "Процесс", href: "/#process" },
-  { label: "FAQ", href: "/#faq" }
+  { label: "SEO/AEO", href: "/aeo" },
+  { label: "FAQ", href: "/faq" }
 ];
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const leadHref = "#lead-form";
+  const leadHref = pathname === "/" ? "#lead-form" : "/contact";
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-[#f7f7f5]/92 backdrop-blur">

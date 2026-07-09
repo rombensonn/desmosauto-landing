@@ -10,4 +10,6 @@ tsconfig.tsbuildinfo
 .env.local
 .env.*.local
 
+backend/api/leads.config.php
+api/leads.config.php
 backend/storage/

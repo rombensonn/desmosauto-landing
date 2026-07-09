@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, X } from "lucide-react";
@@ -48,6 +49,23 @@ export function ServicesGrid({ services, serviceModels }: ServicesGridProps) {
 
       leadForm.scrollIntoView({ behavior: shouldReduceMotion ? "auto" : "smooth", block: "start" });
       window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    });
+  }, [shouldReduceMotion]);
+
+  const scrollToExamples = useCallback(() => {
+    previousFocusRef.current = null;
+    setSelectedServiceId(null);
+    document.body.style.overflow = previousBodyOverflowRef.current;
+
+    window.requestAnimationFrame(() => {
+      const examples = document.getElementById("examples");
+
+      if (!examples) {
+        return;
+      }
+
+      examples.scrollIntoView({ behavior: shouldReduceMotion ? "auto" : "smooth", block: "start" });
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#examples`);
     });
   }, [shouldReduceMotion]);
 
@@ -142,6 +160,10 @@ export function ServicesGrid({ services, serviceModels }: ServicesGridProps) {
                 <p className="mt-3 text-sm leading-6 text-neutral-700">{service.description}</p>
 
                 <div className="service-card-actions">
+                  <Link className="service-toggle-button" href={`/services/${service.id}`}>
+                    <span>Страница услуги</span>
+                    <ArrowRight aria-hidden="true" size={16} />
+                  </Link>
                   <button
                     type="button"
                     className="service-toggle-button"
@@ -246,10 +268,16 @@ export function ServicesGrid({ services, serviceModels }: ServicesGridProps) {
                   </div>
                 </div>
 
-                <button type="button" className="service-modal-cta" onClick={scrollToLeadForm}>
-                  Получить демо такого проекта
-                  <ArrowRight aria-hidden="true" size={17} />
-                </button>
+                <div className="service-modal-actions">
+                  <button type="button" className="service-modal-cta" onClick={scrollToLeadForm}>
+                    Обсудить проект
+                    <ArrowRight aria-hidden="true" size={17} />
+                  </button>
+                  <button type="button" className="service-modal-secondary" onClick={scrollToExamples}>
+                    Посмотреть примеры
+                    <ArrowRight aria-hidden="true" size={17} />
+                  </button>
+                </div>
               </div>
             </motion.div>
           </motion.div>

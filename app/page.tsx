@@ -19,6 +19,7 @@ import {
   faqJsonLd,
   organizationJsonLd,
   serviceJsonLd,
+  sitelinksItemListJsonLd,
   websiteJsonLd
 } from "@/lib/seo";
 import { assetPath } from "@/lib/site-paths";
@@ -71,7 +72,7 @@ const problemItems = [
     model: "/images/problem-models-uniform/mobile-form.png"
   },
   {
-    text: "сайт не помогает администратору, а просто висит для галочки",
+    text: "сайт не помогает принять заявку, а висит для галочки",
     detail: "Страница должна подготавливать обращение, а не быть визиткой без роли.",
     tags: ["заявка", "структура", "разговор"],
     model: "/images/problem-models-uniform/admin-dashboard.png"
@@ -204,6 +205,7 @@ export default function HomePage() {
       <SeoJsonLd id="website-jsonld" data={websiteJsonLd()} />
       <SeoJsonLd id="service-jsonld" data={serviceJsonLd()} />
       <SeoJsonLd id="faq-jsonld" data={faqJsonLd(faqs)} />
+      <SeoJsonLd id="sitelinks-jsonld" data={sitelinksItemListJsonLd()} />
       <GsapScrollExperience />
 
       <section className="overflow-hidden pb-0 pt-10 md:pt-12" data-gsap-hero>
@@ -374,7 +376,7 @@ export default function HomePage() {
             <div className="max-w-2xl" data-gsap-card>
               <p className="inline-flex min-h-9 items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 py-2 text-xs font-black uppercase text-white/78">
                 <Sparkles aria-hidden="true" size={16} className="text-[#ffb08a]" />
-                Новый оффер
+                Оптимизация
               </p>
               <h2 className="mt-6 font-[var(--font-heading)] text-3xl font-black leading-[1.02] text-white sm:text-4xl md:text-6xl">
                 AEO-оптимизация под быстрые ответы{" "}
@@ -391,10 +393,16 @@ export default function HomePage() {
                   </span>
                 ))}
               </div>
-              <CleanAnchorLink href="#lead-form" className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 font-black text-neutral-950 transition hover:bg-[#ffd8c5]">
-                Добавить AEO в демо
-                <ArrowRight aria-hidden="true" size={18} />
-              </CleanAnchorLink>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <CleanAnchorLink href="#lead-form" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 font-black text-neutral-950 transition hover:bg-[#ffd8c5]">
+                  Добавить AEO в демо
+                  <ArrowRight aria-hidden="true" size={18} />
+                </CleanAnchorLink>
+                <CleanAnchorLink href="#seo-aeo" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/22 bg-white/10 px-5 py-3 font-bold text-white transition hover:border-white/42 hover:bg-white/16">
+                  Что такое AEO?
+                  <ArrowRight aria-hidden="true" size={18} />
+                </CleanAnchorLink>
+              </div>
             </div>
 
             <div className="aeo-answer-panel rounded-lg p-5 sm:p-6" data-gsap-card>
@@ -404,8 +412,8 @@ export default function HomePage() {
                     <Bot aria-hidden="true" size={22} />
                   </span>
                   <div>
-                    <p className="text-sm font-black text-white">AI answer preview</p>
-                    <p className="mt-1 text-xs font-bold text-white/52">как сайт готовит ответ для выдачи</p>
+                    <p className="text-sm font-bold text-white">AI answer preview</p>
+                    <p className="mt-1 text-xs font-medium text-white/52">как сайт готовит ответ для выдачи</p>
                   </div>
                 </div>
                 <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-[#ffd8c5]">AEO</span>

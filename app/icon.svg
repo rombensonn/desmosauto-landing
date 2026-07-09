@@ -1,5 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ДесмосАвто">
-  <rect width="64" height="64" rx="12" fill="#0F172A"/>
-  <path d="M16 42V18h13c7.6 0 12.8 4.8 12.8 12s-5.2 12-12.8 12H16Zm8-7h4.8c3.2 0 5.2-1.9 5.2-5s-2-5-5.2-5H24v10Z" fill="#FFFFFF"/>
-  <path d="M41 42 49.5 18H57l-8.8 24H41Z" fill="#38BDF8"/>
+  <defs>
+    <linearGradient id="bg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1c1c1a" />
+      <stop offset="1" stop-color="#080808" />
+    </linearGradient>
+    <linearGradient id="accent" x1="15" y1="50" x2="54" y2="12" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e44810" />
+      <stop offset="0.55" stop-color="#ff5a1f" />
+      <stop offset="1" stop-color="#ff9a63" />
+    </linearGradient>
+    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.28" />
+    </filter>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="url(#bg)" />
+  <path d="M50.5 7.5 58 15 41.5 56H29.8L46.2 15.6c1-2.5 2.4-5 4.3-8.1Z" fill="url(#accent)" />
+  <path d="M8 47.5C16.3 39.2 26.8 36 38.8 36H51l-4.6 11.5H36.8c-9.7 0-17 2.3-23.2 7.8L8 47.5Z" fill="url(#accent)" />
+
+  <path
+    d="M16 47V17h17.2C42 17 48 23.1 48 32s-6 15-14.8 15H16Zm10.2-9h6.2c3.8 0 6.4-2.4 6.4-6s-2.6-6-6.4-6h-6.2v12Z"
+    fill="#ffffff"
+    filter="url(#soft-shadow)"
+  />
+  <path d="M26.2 38h6.2c3.8 0 6.4-2.4 6.4-6s-2.6-6-6.4-6h-6.2v12Z" fill="#080808" />
+  <path d="M16 47h10.2V36.9c-3.8 1-7.2 2.6-10.2 4.7V47Z" fill="#fff0e8" />
+  <circle cx="49" cy="47" r="5" fill="#080808" />
+  <circle cx="49" cy="47" r="2.4" fill="#ff5a1f" />
 </svg>

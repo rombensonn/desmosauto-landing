@@ -76,6 +76,44 @@ function formatRussianPhone(value: string): string {
   return phone;
 }
 
+function getLeadContext() {
+  const searchParams = new URLSearchParams(window.location.search);
+
+  return {
+    pageUrl: window.location.href,
+    referrer: document.referrer,
+    utm_source: searchParams.get("utm_source") || "",
+    utm_medium: searchParams.get("utm_medium") || "",
+    utm_campaign: searchParams.get("utm_campaign") || ""
+  };
+}
+
+function getRegistrableHost(hostname: string) {
+  return hostname.toLowerCase().replace(/^www\./, "");
+}
+
+function resolveLeadEndpoint(endpoint: string) {
+  if (typeof window === "undefined") {
+    return endpoint;
+  }
+
+  try {
+    const targetUrl = new URL(endpoint, window.location.origin);
+    const currentUrl = new URL(window.location.href);
+    const isSameSite =
+      targetUrl.protocol === currentUrl.protocol &&
+      getRegistrableHost(targetUrl.hostname) === getRegistrableHost(currentUrl.hostname);
+
+    if (isSameSite) {
+      return `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
+    }
+
+    return targetUrl.toString();
+  } catch {
+    return "/api/leads.php";
+  }
+}
+
 export function LeadForm({ submitLabel = "Получить демо за сутки", source, compact = false }: LeadFormProps) {
   const [fields, setFields] = useState(initialFields);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -161,7 +199,7 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
     setErrors({});
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(resolveLeadEndpoint(endpoint), {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -172,33 +210,38 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
           website: fields.website,
           privacyPolicyAccepted: fields.privacyPolicyAccepted,
           personalDataConsent: fields.personalDataConsent,
+          ...getLeadContext(),
           source
         })
       });
 
-      const result = await response.json().catch(() => ({}));
+      const result = await response.json().catch(() => null);
 
-      if (!response.ok || result.ok === false) {
+      if (!response.ok || result?.ok === false) {
+        const fallbackMessage =
+          response.status === 404
+            ? "Не найден обработчик заявки. Проверьте, что api/leads.php загружен в корень сайта."
+            : "Не удалось отправить заявку. Проверьте поля и попробуйте ещё раз.";
+
         setErrors({
-          name: result.errors?.name,
-          phone: result.errors?.phone,
-          privacyPolicyAccepted: result.errors?.privacyPolicyAccepted,
-          personalDataConsent: result.errors?.personalDataConsent,
-          form: result.message || "Не удалось отправить заявку. Проверьте поля и попробуйте ещё раз."
+          name: result?.errors?.name,
+          phone: result?.errors?.phone,
+          privacyPolicyAccepted: result?.errors?.privacyPolicyAccepted,
+          personalDataConsent: result?.errors?.personalDataConsent,
+          form: result?.message || fallbackMessage
         });
         return;
       }
 
       setSuccessMessage(
-        result.message ||
+        result?.message ||
           "Заявка отправлена. Мы свяжемся с вами и уточним, какой сайт нужен вашему автосервису."
       );
       window.sessionStorage.removeItem(draftKey);
       setFields(initialFields);
     } catch {
       setErrors({
-        form:
-          "Не удалось связаться с обработчиком заявки. Проверьте PHP endpoint или укажите NEXT_PUBLIC_LEAD_ENDPOINT."
+        form: "Не удалось связаться с обработчиком заявки. Проверьте, что api/leads.php доступен на этом домене."
       });
     } finally {
       setIsSubmitting(false);
@@ -273,7 +316,10 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
         </div>
       </div>
 
-      <div className="flex items-start gap-3 text-sm leading-6 text-neutral-700">
+      <label
+        className="flex cursor-pointer items-start gap-4 rounded-lg py-1 text-sm leading-6 text-neutral-700"
+        htmlFor={`${source}-privacy-policy-accepted`}
+      >
         <input
           id={`${source}-privacy-policy-accepted`}
           type="checkbox"
@@ -281,27 +327,34 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
           onChange={(event) =>
             setFields((current) => ({ ...current, privacyPolicyAccepted: event.target.checked }))
           }
-          className="mt-1 h-5 w-5 rounded border-neutral-300 accent-neutral-950"
+          className="mt-1 h-5 w-5 shrink-0 rounded border-neutral-300 accent-neutral-950"
           aria-invalid={Boolean(errors.privacyPolicyAccepted)}
           aria-labelledby={`${source}-privacy-policy-label`}
           aria-describedby={errors.privacyPolicyAccepted ? `${source}-privacy-error` : undefined}
           required
         />
-        <p id={`${source}-privacy-policy-label`}>
+        <span id={`${source}-privacy-policy-label`}>
           Я ознакомлен(а) с{" "}
-          <Link className="font-semibold text-neutral-950 underline underline-offset-4" href="/privacy-policy">
+          <Link
+            className="font-semibold text-neutral-950 underline underline-offset-4"
+            href="/privacy-policy"
+            onClick={(event) => event.stopPropagation()}
+          >
             Политикой конфиденциальности и обработки персональных данных
           </Link>
           .
-        </p>
-      </div>
+        </span>
+      </label>
       {errors.privacyPolicyAccepted ? (
         <p id={`${source}-privacy-error`} className="-mt-2 text-sm font-semibold text-red-700" role="alert">
           {errors.privacyPolicyAccepted}
         </p>
       ) : null}
 
-      <div className="flex items-start gap-3 text-sm leading-6 text-neutral-700">
+      <label
+        className="flex cursor-pointer items-start gap-4 rounded-lg py-1 text-sm leading-6 text-neutral-700"
+        htmlFor={`${source}-personal-data-consent`}
+      >
         <input
           id={`${source}-personal-data-consent`}
           type="checkbox"
@@ -309,20 +362,24 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
           onChange={(event) =>
             setFields((current) => ({ ...current, personalDataConsent: event.target.checked }))
           }
-          className="mt-1 h-5 w-5 rounded border-neutral-300 accent-neutral-950"
+          className="mt-1 h-5 w-5 shrink-0 rounded border-neutral-300 accent-neutral-950"
           aria-invalid={Boolean(errors.personalDataConsent)}
           aria-labelledby={`${source}-personal-data-label`}
           aria-describedby={errors.personalDataConsent ? `${source}-personal-data-error` : undefined}
           required
         />
-        <p id={`${source}-personal-data-label`}>
+        <span id={`${source}-personal-data-label`}>
           Даю{" "}
-          <Link className="font-semibold text-neutral-950 underline underline-offset-4" href="/personal-data-consent">
+          <Link
+            className="font-semibold text-neutral-950 underline underline-offset-4"
+            href="/personal-data-consent"
+            onClick={(event) => event.stopPropagation()}
+          >
             согласие на обработку персональных данных
           </Link>
           .
-        </p>
-      </div>
+        </span>
+      </label>
       {errors.personalDataConsent ? (
         <p id={`${source}-personal-data-error`} className="-mt-2 text-sm font-semibold text-red-700" role="alert">
           {errors.personalDataConsent}

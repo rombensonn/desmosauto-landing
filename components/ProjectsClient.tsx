@@ -1,7 +1,8 @@
 "use client";
 
 import { RotateCcw, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { animate, motion, useReducedMotion } from "motion/react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Project } from "@/data/projects";
 import { ProjectGrid } from "@/components/ProjectGrid";
 
@@ -29,6 +30,8 @@ const businessTypeFilters = new Set([
   "Техосмотр",
   "Автозапчасти"
 ]);
+
+const numberFormatter = new Intl.NumberFormat("ru-RU");
 
 export function ProjectsClient({ projects }: { projects: Project[] }) {
   const [activeFilter, setActiveFilter] = useState("Все");
@@ -70,62 +73,121 @@ export function ProjectsClient({ projects }: { projects: Project[] }) {
   }
 
   return (
-    <div>
-      <div className="surface rounded-lg p-4 md:p-5">
-        <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
-          <label className="relative block">
-            <span className="sr-only">Поиск по проектам</span>
-            <Search aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
-            <input
-              type="search"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Поиск по названию, услуге или акценту"
-              className="min-h-12 w-full rounded-lg border border-neutral-300 bg-white py-3 pl-12 pr-4 text-base text-neutral-950 transition-colors placeholder:text-neutral-400 focus:border-neutral-950"
-            />
+    <div className="projects-catalog">
+      <div className="projects-filter-panel" data-projects-reveal>
+        <div className="projects-filter-top">
+          <div>
+            <h2>Каталог проектов</h2>
+            <p>Фильтруйте по нише, формату сайта, SEO/AEO и быстрому запуску.</p>
+          </div>
+          <motion.div
+            className="projects-result-count"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            layout
+            initial={{ opacity: 0, y: 10, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            whileHover={{ y: -2 }}
+            transition={{ type: "spring", stiffness: 340, damping: 26, mass: 0.9 }}
+          >
+            <AnimatedResultNumber value={filteredProjects.length} />
+            <p>найдено</p>
+          </motion.div>
+        </div>
+
+        <div className="projects-search-row">
+          <label className="projects-search-field">
+            <span>Поиск по каталогу</span>
+            <span className="projects-search-input-wrap">
+              <Search aria-hidden="true" size={20} />
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Название, город или услуга"
+              />
+            </span>
           </label>
-          <button type="button" className="btn-secondary" onClick={resetFilters}>
+          <button type="button" className="projects-reset-button" onClick={resetFilters}>
             <RotateCcw aria-hidden="true" size={18} />
-            Сбросить фильтры
+            Сбросить
           </button>
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-2" aria-label="Фильтры проектов">
+        <div className="projects-filter-scroll" aria-label="Фильтры проектов">
           {filters.map((filter) => (
             <button
               key={filter}
               type="button"
               onClick={() => setActiveFilter(filter)}
-              className={`min-h-11 rounded-full border px-4 text-sm font-bold transition-colors ${
-                activeFilter === filter
-                  ? "border-neutral-950 bg-neutral-950 text-white"
-                  : "border-neutral-200 bg-white text-neutral-700 hover:border-[#ff5a1f]/30 hover:bg-[#fff0e8]"
-              }`}
+              className={activeFilter === filter ? "is-active" : ""}
               aria-pressed={activeFilter === filter}
             >
               {filter}
             </button>
           ))}
         </div>
-
-        <p className="mt-5 text-sm font-semibold text-slate-700" role="status">
-          Найдено проектов: {filteredProjects.length}
-        </p>
       </div>
 
-      <div className="mt-8">
+      <div className="projects-grid-wrap">
         {filteredProjects.length > 0 ? (
           <ProjectGrid projects={filteredProjects} />
         ) : (
-          <div className="surface rounded-lg p-8 text-center">
-            <h2 className="font-[var(--font-heading)] text-2xl font-bold text-slate-950">Ничего не найдено</h2>
-            <p className="mt-3 text-slate-700">Сбросьте фильтры или оставьте заявку, чтобы мы подобрали структуру вручную.</p>
-            <button type="button" className="btn-primary mt-6" onClick={resetFilters}>
+          <div className="projects-empty-state">
+            <h2>Ничего не найдено</h2>
+            <p>Сбросьте фильтры или оставьте заявку, чтобы мы подобрали структуру вручную.</p>
+            <button type="button" onClick={resetFilters}>
               Показать все проекты
             </button>
           </div>
         )}
       </div>
     </div>
+  );
+}
+
+function AnimatedResultNumber({ value }: { value: number }) {
+  const numberRef = useRef<HTMLSpanElement | null>(null);
+  const previousValueRef = useRef(0);
+  const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const node = numberRef.current;
+
+    if (!node) {
+      return undefined;
+    }
+
+    if (reducedMotion) {
+      node.textContent = numberFormatter.format(value);
+      previousValueRef.current = value;
+      return undefined;
+    }
+
+    node.textContent = numberFormatter.format(previousValueRef.current);
+
+    const controls = animate(previousValueRef.current, value, {
+      type: "spring",
+      stiffness: 260,
+      damping: 28,
+      mass: 0.9,
+      onUpdate: (latest) => {
+        node.textContent = numberFormatter.format(Math.round(latest));
+      }
+    });
+
+    previousValueRef.current = value;
+
+    return () => controls.stop();
+  }, [reducedMotion, value]);
+
+  return (
+    <>
+      <span className="projects-result-number-animated" ref={numberRef} suppressHydrationWarning>
+        {numberFormatter.format(0)}
+      </span>
+      <span className="projects-result-number-static">{numberFormatter.format(value)}</span>
+    </>
   );
 }

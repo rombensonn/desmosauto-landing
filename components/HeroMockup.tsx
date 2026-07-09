@@ -24,7 +24,7 @@ export function HeroMockup() {
           <div className="min-w-0 max-w-xl">
             <p className="inline-flex min-h-9 items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 py-2 text-xs font-black uppercase text-[#ffd8c5]">
               <Sparkles aria-hidden="true" size={16} />
-              основной оффер
+              быстрые ответы для клиентов
             </p>
             <h2 className="mt-5 break-words font-[var(--font-heading)] text-3xl font-black leading-[1.02] text-white sm:text-5xl lg:text-6xl">
               AEO-оптимизация под быстрые ответы нейросетей
@@ -37,7 +37,7 @@ export function HeroMockup() {
               href="#aeo-offer"
               className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 font-black text-neutral-950 transition hover:bg-[#ffd8c5]"
             >
-              Посмотреть AEO-оффер
+              Посмотреть блок быстрых ответов
               <ArrowRight aria-hidden="true" size={18} />
             </CleanAnchorLink>
           </div>
