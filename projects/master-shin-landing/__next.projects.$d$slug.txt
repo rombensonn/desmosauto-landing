@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[89135,["/desmosauto-landing/_next/static/chunks/0yn-px39x58iw.js","/desmosauto-landing/_next/static/chunks/04ikz47n9c2nk.js","/desmosauto-landing/_next/static/chunks/17vx4cmlqsssi.js"],"default"]
+3:I[79909,["/desmosauto-landing/_next/static/chunks/0yn-px39x58iw.js","/desmosauto-landing/_next/static/chunks/04ikz47n9c2nk.js","/desmosauto-landing/_next/static/chunks/17vx4cmlqsssi.js"],"default"]
+4:[]
+0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"rDjjevAlPp2Le90wsVWPI"}

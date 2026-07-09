@@ -1,0 +1,11 @@
+:HL["/desmosauto-landing/_next/static/chunks/2ak9h2v44dzo1.css","style"]
+:HL["/desmosauto-landing/_next/static/media/aa_stetica_black-s.p.3r2yk-a_ndi4d.otf","font",{"crossOrigin":"","type":"font/otf"}]
+:HL["/desmosauto-landing/_next/static/media/aa_stetica_bold-s.p.0cgdu5m7hkbv_.otf","font",{"crossOrigin":"","type":"font/otf"}]
+:HL["/desmosauto-landing/_next/static/media/aa_stetica_bold_italic-s.p.1vo1hpqxz1ljt.otf","font",{"crossOrigin":"","type":"font/otf"}]
+:HL["/desmosauto-landing/_next/static/media/aa_stetica_light-s.p.2atboohh5-3zm.otf","font",{"crossOrigin":"","type":"font/otf"}]
+:HL["/desmosauto-landing/_next/static/media/aa_stetica_light_italic-s.p.3h4h_8mayu5g3.otf","font",{"crossOrigin":"","type":"font/otf"}]
+:HL["/desmosauto-landing/_next/static/media/aa_stetica_medium-s.p.0me0nt3q2w1ix.otf","font",{"crossOrigin":"","type":"font/otf"}]
+:HL["/desmosauto-landing/_next/static/media/aa_stetica_medium_italic-s.p.1yojl6-pkk69h.otf","font",{"crossOrigin":"","type":"font/otf"}]
+:HL["/desmosauto-landing/_next/static/media/aa_stetica_regular-s.p.0mpk89s1rajed.otf","font",{"crossOrigin":"","type":"font/otf"}]
+:HL["/desmosauto-landing/_next/static/media/aa_stetica_regular_italic-s.p.01zjuo6luitz7.otf","font",{"crossOrigin":"","type":"font/otf"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"autoservice-approval-landing","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"rDjjevAlPp2Le90wsVWPI"}
