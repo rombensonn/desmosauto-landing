@@ -19,7 +19,7 @@ const stackLayers: StackLayer[] = [
     title: "Сначала снимаем тревогу перед звонком",
     text: "Первый слой страницы объясняет симптомы, услуги и следующий шаг без длинных формулировок.",
     points: ["понятная услуга", "цена или принцип расчёта", "быстрый путь к записи"],
-    image: "/images/problem-models-uniform/unclear-estimate.png",
+    image: "/images/problem-models-uniform/unclear-estimate.webp",
     icon: MessageCircle
   },
   {
@@ -27,7 +27,7 @@ const stackLayers: StackLayer[] = [
     title: "Показываем доказательства до заявки",
     text: "Следующий слой добавляет фото работ, гарантии, опыт и ответы на частые сомнения владельца авто.",
     points: ["фото и кейсы", "гарантии", "ответы на возражения"],
-    image: "/images/solution-models-uniform/trust-package.png",
+    image: "/images/solution-models-uniform/trust-package.webp",
     icon: Layers3
   },
   {
@@ -35,7 +35,7 @@ const stackLayers: StackLayer[] = [
     title: "Ведём человека через сайт без лишних развилок",
     text: "Структура соединяет услуги, FAQ, кейсы и форму так, чтобы клиент не терялся между блоками.",
     points: ["услуги связаны с FAQ", "кейсы ведут к заявке", "CTA не спорят между собой"],
-    image: "/images/trust-models/service-structure.png",
+    image: "/images/trust-models/service-structure.webp",
     icon: Route
   },
   {
@@ -43,7 +43,7 @@ const stackLayers: StackLayer[] = [
     title: "Финальный слой собирает короткое обращение",
     text: "Форма просит только имя и телефон, а администратор получает более подготовленный контакт.",
     points: ["имя и телефон", "серверная проверка", "понятный источник заявки"],
-    image: "/images/solution-models-uniform/short-lead-form.png",
+    image: "/images/solution-models-uniform/short-lead-form.webp",
     icon: Gauge
   }
 ];

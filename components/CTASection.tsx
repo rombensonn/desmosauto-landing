@@ -12,15 +12,15 @@ type CTASectionProps = {
 const ctaBenefits = [
   {
     label: "Уточним направление",
-    icon: "/images/cta-icons/lead-direction.png"
+    icon: "/images/cta-icons/lead-direction.webp"
   },
   {
     label: "Покажем демо за сутки",
-    icon: "/images/cta-icons/lead-demo.png"
+    icon: "/images/cta-icons/lead-demo.webp"
   },
   {
     label: "Без предоплаты",
-    icon: "/images/cta-icons/lead-prepay.png"
+    icon: "/images/cta-icons/lead-prepay.webp"
   }
 ];
 

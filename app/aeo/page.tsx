@@ -205,7 +205,7 @@ export default function AeoPage() {
                 </div>
                 <div className="relative min-h-[220px] overflow-hidden rounded-lg border border-white/12 bg-white">
                   <Image
-                    src={assetPath("/images/trust-models/seo-aeo.png")}
+                    src={assetPath("/images/trust-models/seo-aeo.webp")}
                     alt="Схема AEO-структуры для сайта автосервиса"
                     fill
                     priority
@@ -272,7 +272,7 @@ export default function AeoPage() {
             </ScrollAnimate>
             <ScrollAnimate animation="zoomIn" delay={120} className="relative min-h-[360px] overflow-hidden rounded-lg border border-neutral-200 bg-white">
               <Image
-                src={assetPath("/images/solution-models-uniform/simple-services.png")}
+                src={assetPath("/images/solution-models-uniform/simple-services.webp")}
                 alt="Структура услуг автосервиса с короткими ответами"
                 fill
                 sizes="(min-width: 1024px) 32vw, 90vw"

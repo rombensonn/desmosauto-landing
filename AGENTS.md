@@ -144,7 +144,7 @@ The site relies heavily on actual bitmap assets, not SVG decoration:
 - `public/images/solution-models-uniform/` - uniform 3D solution illustrations.
 - `public/images/service-models/` - service-format 3D models.
 - `public/images/trust-models/` - trust/advantage 3D models.
-- `public/images/projects-hero-3d-model.png` - projects hero model.
+- `public/images/projects-hero-3d-model.webp` - projects hero model.
 - `public/project-previews/` - real project preview screenshots.
 - `public/images/brand/` - DesmosAuto brand marks.
 

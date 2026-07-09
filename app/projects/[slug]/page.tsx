@@ -112,7 +112,7 @@ export default async function ProjectCasePage({ params }: CasePageProps) {
               </div>
               <div className="case-browser-screen relative">
                 <Image
-                  src={assetPath(`/project-previews/${project.slug}.jpg`)}
+                  src={assetPath(`/project-previews/${project.slug}.webp`)}
                   alt={`Скриншот hero-блока проекта ${project.title}`}
                   fill
                   className="case-browser-image"

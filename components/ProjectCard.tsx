@@ -67,7 +67,7 @@ export function ProjectCard({ project, compact = false }: ProjectCardProps) {
 }
 
 function ProjectPreview({ project }: { project: Project }) {
-  const previewSrc = project.liveUrl ? assetPath(`/project-previews/${project.slug}.jpg`) : null;
+  const previewSrc = project.liveUrl ? assetPath(`/project-previews/${project.slug}.webp`) : null;
 
   return (
     <div className="projects-card-preview" aria-hidden="true">

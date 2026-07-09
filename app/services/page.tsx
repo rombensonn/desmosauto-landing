@@ -41,14 +41,14 @@ function servicesCollectionJsonLd() {
 }
 
 const serviceModels: Record<string, string> = {
-  "auto-service-landing": assetPath("/images/service-models/auto-service-landing.png"),
-  "sto-multipage": assetPath("/images/service-models/sto-multipage.png"),
-  "tire-service": assetPath("/images/service-models/tire-service.png"),
-  detailing: assetPath("/images/service-models/detailing.png"),
-  "body-repair": assetPath("/images/service-models/body-repair.png"),
-  diagnostics: assetPath("/images/service-models/diagnostics.png"),
-  inspection: assetPath("/images/service-models/inspection.png"),
-  "auto-parts": assetPath("/images/service-models/auto-parts.png")
+  "auto-service-landing": assetPath("/images/service-models/auto-service-landing.webp"),
+  "sto-multipage": assetPath("/images/service-models/sto-multipage.webp"),
+  "tire-service": assetPath("/images/service-models/tire-service.webp"),
+  detailing: assetPath("/images/service-models/detailing.webp"),
+  "body-repair": assetPath("/images/service-models/body-repair.webp"),
+  diagnostics: assetPath("/images/service-models/diagnostics.webp"),
+  inspection: assetPath("/images/service-models/inspection.webp"),
+  "auto-parts": assetPath("/images/service-models/auto-parts.webp")
 };
 
 const heroStats = [
@@ -136,7 +136,7 @@ export default function ServicesPage() {
           <aside className="reference-hero-shell services-index-panel rounded-lg" aria-label="Что входит в сайт для автосервиса" data-gsap-hero-item>
             <div className="services-index-panel-media">
               <Image
-                src={assetPath("/images/service-models/sto-multipage.png")}
+                src={assetPath("/images/service-models/sto-multipage.webp")}
                 alt=""
                 width={640}
                 height={460}

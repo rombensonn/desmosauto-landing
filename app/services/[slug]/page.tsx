@@ -60,7 +60,7 @@ const serviceStoryConfigs: Record<string, ServiceStoryConfig> = {
     heroTitle: "Лендинг для автосервиса",
     heroLead:
       "Одностраничный сайт, который объясняет услуги, снимает вопросы клиентов и ведет к заявке. Демо покажем за сутки.",
-    model: "/images/service-models/auto-service-landing.png",
+    model: "/images/service-models/auto-service-landing.webp",
     examplesId: "landing-examples",
     intro: {
       overline: "Что это за формат",
@@ -170,7 +170,7 @@ const serviceStoryConfigs: Record<string, ServiceStoryConfig> = {
     heroTitle: "Многостраничный сайт СТО",
     heroLead:
       "Сайт с отдельными страницами услуг, направлений ремонта, FAQ и будущими SEO/AEO-разделами для роста из поиска.",
-    model: "/images/service-models/sto-multipage.png",
+    model: "/images/service-models/sto-multipage.webp",
     examplesId: "multipage-examples",
     intro: {
       overline: "Что это за формат",
@@ -280,7 +280,7 @@ const serviceStoryConfigs: Record<string, ServiceStoryConfig> = {
     heroTitle: "Сайт шиномонтажа",
     heroLead:
       "Страница или сайт для сезонной записи, услуг шиномонтажа, хранения колес, балансировки и быстрых заявок с телефона.",
-    model: "/images/service-models/tire-service.png",
+    model: "/images/service-models/tire-service.webp",
     examplesId: "tire-examples",
     intro: {
       overline: "Что это за формат",
@@ -390,7 +390,7 @@ const serviceStoryConfigs: Record<string, ServiceStoryConfig> = {
     heroTitle: "Сайт детейлинга",
     heroLead:
       "Визуальная страница для услуг ухода, пакетов, этапов, фото результата, доверия и заявки на предварительную оценку.",
-    model: "/images/service-models/detailing.png",
+    model: "/images/service-models/detailing.webp",
     examplesId: "detailing-examples",
     intro: {
       overline: "Что это за формат",
@@ -499,7 +499,7 @@ const serviceStoryConfigs: Record<string, ServiceStoryConfig> = {
     heroTitle: "Сайт кузовного ремонта",
     heroLead:
       "Страница или сайт для оценки повреждений, окраса, ремонта вмятин, гарантий, согласования работ и заявки на расчет.",
-    model: "/images/service-models/body-repair.png",
+    model: "/images/service-models/body-repair.webp",
     examplesId: "body-repair-examples",
     intro: {
       overline: "Что это за формат",
@@ -609,7 +609,7 @@ const serviceStoryConfigs: Record<string, ServiceStoryConfig> = {
     heroTitle: "Сайт диагностики авто",
     heroLead:
       "Сайт для симптомов, проверок, расшифровки результатов, автоэлектрики, диагностики перед покупкой и записи.",
-    model: "/images/service-models/diagnostics.png",
+    model: "/images/service-models/diagnostics.webp",
     examplesId: "diagnostics-examples",
     intro: {
       overline: "Что это за формат",
@@ -719,7 +719,7 @@ const serviceStoryConfigs: Record<string, ServiceStoryConfig> = {
     heroTitle: "Сайт под техосмотр",
     heroLead:
       "Сайт для документов, требований, этапов проверки, подготовки автомобиля и быстрой записи на удобное время.",
-    model: "/images/service-models/inspection.png",
+    model: "/images/service-models/inspection.webp",
     examplesId: "inspection-examples",
     intro: {
       overline: "Что это за формат",
@@ -829,7 +829,7 @@ const serviceStoryConfigs: Record<string, ServiceStoryConfig> = {
     heroTitle: "Сайт автомагазина / автозапчастей",
     heroLead:
       "Сайт для категорий запчастей, подбора детали, заявки на наличие, совместимости и связки с сервисными услугами.",
-    model: "/images/service-models/auto-parts.png",
+    model: "/images/service-models/auto-parts.webp",
     examplesId: "parts-examples",
     intro: {
       overline: "Что это за формат",
@@ -1234,7 +1234,7 @@ function ServiceStoryProjectCard({ project, delay }: { project: Project; delay: 
     <ServiceStoryCard className="service-story-project-card" delay={delay}>
       <Link href={`/projects/${project.slug}`} className="service-story-project-media">
         <Image
-          src={assetPath(`/project-previews/${project.slug}.jpg`)}
+          src={assetPath(`/project-previews/${project.slug}.webp`)}
           alt={`Превью проекта ${project.title}`}
           fill
           unoptimized

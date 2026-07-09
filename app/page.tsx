@@ -45,64 +45,64 @@ const problemItems = [
     text: "клиенты звонят и задают одни и те же вопросы",
     detail: "Администратор повторяет базовые ответы вместо записи клиента.",
     tags: ["FAQ", "услуги", "запись"],
-    model: "/images/problem-models-uniform/repeat-calls.png"
+    model: "/images/problem-models-uniform/repeat-calls.webp"
   },
   {
     text: "не понимают стоимость, сроки и состав работ",
     detail: "Без логики цены клиент сравнивает только по самому низкому чеку.",
     tags: ["цены", "сроки", "состав работ"],
-    model: "/images/problem-models-uniform/unclear-estimate.png"
+    model: "/images/problem-models-uniform/unclear-estimate.webp"
   },
   {
     text: "боятся переплаты и не доверяют мастерам без доказательств",
     detail: "Сомнения растут, когда нет фото, гарантий и понятных ответов.",
     tags: ["доверие", "гарантии", "доказательства"],
-    model: "/images/problem-models-uniform/trust-proof.png"
+    model: "/images/problem-models-uniform/trust-proof.webp"
   },
   {
     text: "хотят увидеть фото работ, гарантии и понятный порядок записи",
     detail: "Решение созревает быстрее, когда путь до заявки показан заранее.",
     tags: ["фото работ", "порядок", "уверенность"],
-    model: "/images/problem-models-uniform/work-photos.png"
+    model: "/images/problem-models-uniform/work-photos.webp"
   },
   {
     text: "с телефона неудобно оставить заявку",
     detail: "Мобильный сценарий должен вести к контакту без лишних полей.",
     tags: ["мобильный", "форма", "контакт"],
-    model: "/images/problem-models-uniform/mobile-form.png"
+    model: "/images/problem-models-uniform/mobile-form.webp"
   },
   {
     text: "сайт не помогает принять заявку, а висит для галочки",
     detail: "Страница должна подготавливать обращение, а не быть визиткой без роли.",
     tags: ["заявка", "структура", "разговор"],
-    model: "/images/problem-models-uniform/admin-dashboard.png"
+    model: "/images/problem-models-uniform/admin-dashboard.webp"
   }
 ];
 
 const solutionItems = [
   {
     text: "объясняет услуги простым языком до звонка",
-    model: "/images/solution-models-uniform/simple-services.png"
+    model: "/images/solution-models-uniform/simple-services.webp"
   },
   {
     text: "показывает цены от или принципы расчёта",
-    model: "/images/solution-models-uniform/pricing-logic.png"
+    model: "/images/solution-models-uniform/pricing-logic.webp"
   },
   {
     text: "собирает имя и телефон без длинных анкет",
-    model: "/images/solution-models-uniform/short-lead-form.png"
+    model: "/images/solution-models-uniform/short-lead-form.webp"
   },
   {
     text: "показывает доверие: опыт, фото, гарантии, ответы",
-    model: "/images/solution-models-uniform/trust-package.png"
+    model: "/images/solution-models-uniform/trust-package.webp"
   },
   {
     text: "готовит клиента к разговору с администратором",
-    model: "/images/solution-models-uniform/admin-conversation.png"
+    model: "/images/solution-models-uniform/admin-conversation.webp"
   },
   {
     text: "даёт владельцу более структурированные обращения",
-    model: "/images/solution-models-uniform/structured-leads.png"
+    model: "/images/solution-models-uniform/structured-leads.webp"
   }
 ];
 
@@ -135,67 +135,67 @@ const advantageItems = [
     kicker: "Специализация",
     title: "Понимаем авто-нишу",
     description: "Не начинаем с пустого листа: знаем, как объяснять услуги СТО, шиномонтажа, детейлинга и ремонта.",
-    model: "/images/trust-models/auto-specialist.png"
+    model: "/images/trust-models/auto-specialist.webp"
   },
   {
     kicker: "Структура",
     title: "Собираем путь к заявке",
     description: "Выстраиваем первый экран, услуги, цены, доверие, FAQ и форму так, чтобы сайт работал как администратор.",
-    model: "/images/trust-models/service-structure.png"
+    model: "/images/trust-models/service-structure.webp"
   },
   {
     kicker: "Практика",
     title: "Опираемся на 120 проектов",
     description: "Быстрее подбираем формат, потому что уже видели десятки задач по разным направлениям автосервиса.",
-    model: "/images/trust-models/case-library.png"
+    model: "/images/trust-models/case-library.webp"
   },
   {
     kicker: "Скорость",
     title: "Показываем демо за сутки",
     description: "Даём увидеть первую версию до оплаты, чтобы вы оценили подход, структуру и визуальный уровень.",
-    model: "/images/trust-models/fast-demo.png"
+    model: "/images/trust-models/fast-demo.webp"
   },
   {
     kicker: "Техника",
     title: "Делаем заявку надёжной",
     description: "Форма с именем и телефоном проходит серверную проверку и работает без лишних внешних зависимостей.",
-    model: "/images/trust-models/php-lead-form.png"
+    model: "/images/trust-models/php-lead-form.webp"
   },
   {
     kicker: "Поиск",
     title: "Закладываем SEO/AEO",
     description: "Готовим сайт к поиску и быстрым AI-ответам: услуги, FAQ, доказательства и сценарии клиента.",
-    model: "/images/trust-models/seo-aeo.png"
+    model: "/images/trust-models/seo-aeo.webp"
   },
   {
     kicker: "Мобильный опыт",
     title: "Проектируем сначала телефон",
     description: "Делаем быстрый мобильный путь: услуга, доверие и заявка без лишних шагов и длинных анкет.",
-    model: "/images/trust-models/mobile-flow.png"
+    model: "/images/trust-models/mobile-flow.webp"
   },
   {
     kicker: "Передача",
     title: "Отдаём понятную основу",
     description: "Передаём структуру, проект и рекомендации так, чтобы сайт можно было развивать дальше без путаницы.",
-    model: "/images/trust-models/site-handoff.png"
+    model: "/images/trust-models/site-handoff.webp"
   },
   {
     kicker: "Контроль",
     title: "Ведём запуск по шагам",
     description: "Показываем, что уже готово, что влияет на заявку и какие улучшения стоит делать следующим этапом.",
-    model: "/images/trust-models/launch-control.png"
+    model: "/images/trust-models/launch-control.webp"
   }
 ];
 
 const serviceModels: Record<string, string> = {
-  "auto-service-landing": assetPath("/images/service-models/auto-service-landing.png"),
-  "sto-multipage": assetPath("/images/service-models/sto-multipage.png"),
-  "tire-service": assetPath("/images/service-models/tire-service.png"),
-  detailing: assetPath("/images/service-models/detailing.png"),
-  "body-repair": assetPath("/images/service-models/body-repair.png"),
-  diagnostics: assetPath("/images/service-models/diagnostics.png"),
-  inspection: assetPath("/images/service-models/inspection.png"),
-  "auto-parts": assetPath("/images/service-models/auto-parts.png")
+  "auto-service-landing": assetPath("/images/service-models/auto-service-landing.webp"),
+  "sto-multipage": assetPath("/images/service-models/sto-multipage.webp"),
+  "tire-service": assetPath("/images/service-models/tire-service.webp"),
+  detailing: assetPath("/images/service-models/detailing.webp"),
+  "body-repair": assetPath("/images/service-models/body-repair.webp"),
+  diagnostics: assetPath("/images/service-models/diagnostics.webp"),
+  inspection: assetPath("/images/service-models/inspection.webp"),
+  "auto-parts": assetPath("/images/service-models/auto-parts.webp")
 };
 
 export default function HomePage() {

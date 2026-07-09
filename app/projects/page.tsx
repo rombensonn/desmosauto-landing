@@ -87,7 +87,7 @@ export default function ProjectsPage() {
 
           <div className="projects-hero-model" aria-label="3D-модель структуры сайта для автосервиса">
             <Image
-              src={assetPath("/images/projects-hero-3d-model.png")}
+              src={assetPath("/images/projects-hero-3d-model.webp")}
               alt=""
               fill
               priority
