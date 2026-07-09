@@ -545,7 +545,6 @@ function da_send_telegram_bot_request($botToken, $method, $payload)
         $responseBody = curl_exec($curl);
         $curlError = curl_error($curl);
         $status = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
-        curl_close($curl);
 
         if ($responseBody === false) {
             return $curlError ?: 'request failed';
