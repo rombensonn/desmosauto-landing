@@ -114,6 +114,13 @@ $telegramErrors = sendTelegramLead($lead, $config);
 
 if ($telegramErrors !== []) {
     logNotificationFailure($storageDir, 'telegram', $telegramErrors);
+
+    if (isTelegramRequired($config)) {
+        respond([
+            'ok' => false,
+            'message' => formatNotificationUserMessage($telegramErrors),
+        ], 502);
+    }
 }
 
 respond([
@@ -190,6 +197,50 @@ function configList($config, $key, $envName)
     return array_values(array_filter($items, function ($item) {
         return $item !== '';
     }));
+}
+
+function configBool($config, $key, $envName, $default = false)
+{
+    if (array_key_exists($key, $config)) {
+        $value = $config[$key];
+    } else {
+        $envValue = getenv($envName);
+
+        if ($envValue === false || trim((string) $envValue) === '') {
+            return $default;
+        }
+
+        $value = $envValue;
+    }
+
+    if (is_bool($value)) {
+        return $value;
+    }
+
+    if ($value === null) {
+        return $default;
+    }
+
+    if (is_int($value) || is_float($value)) {
+        return (int) $value !== 0;
+    }
+
+    $normalized = leadLower(trim((string) $value));
+
+    if (in_array($normalized, ['1', 'true', 'yes', 'y', 'on', 'да'], true)) {
+        return true;
+    }
+
+    if (in_array($normalized, ['0', 'false', 'no', 'n', 'off', 'нет'], true)) {
+        return false;
+    }
+
+    return $default;
+}
+
+function isTelegramRequired($config)
+{
+    return configBool($config, 'telegram_required', 'LEAD_TELEGRAM_REQUIRED', true);
 }
 
 function isBlankConfigValue($value)
@@ -454,10 +505,18 @@ function leadLower($text)
 function sendTelegramLead($lead, $config)
 {
     $botToken = configString($config, 'telegram_bot_token', 'LEAD_TELEGRAM_BOT_TOKEN');
-    $chatIds = configList($config, 'telegram_chat_ids', 'LEAD_TELEGRAM_CHAT_IDS');
+    $chatIds = array_values(array_filter(configList($config, 'telegram_chat_ids', 'LEAD_TELEGRAM_CHAT_IDS'), function ($chatId) {
+        return !isPlaceholderConfigValue($chatId);
+    }));
 
-    if ($botToken === '' || $chatIds === []) {
+    if ($botToken === '' && $chatIds === [] && !isTelegramRequired($config)) {
         return [];
+    }
+
+    $configErrors = validateTelegramConfig($botToken, $chatIds);
+
+    if ($configErrors !== []) {
+        return $configErrors;
     }
 
     $messageThreadId = configString($config, 'telegram_message_thread_id', 'LEAD_TELEGRAM_MESSAGE_THREAD_ID');
@@ -483,6 +542,45 @@ function sendTelegramLead($lead, $config)
     }
 
     return $errors;
+}
+
+function validateTelegramConfig($botToken, $chatIds)
+{
+    $errors = [];
+
+    if ($botToken === '') {
+        $errors[] = 'не задан telegram_bot_token или LEAD_TELEGRAM_BOT_TOKEN';
+    } elseif (isPlaceholderConfigValue($botToken) || !isValidTelegramBotToken($botToken)) {
+        $errors[] = 'telegram_bot_token имеет неверный формат';
+    }
+
+    if ($chatIds === []) {
+        $errors[] = 'не задан telegram_chat_ids или LEAD_TELEGRAM_CHAT_IDS';
+    }
+
+    return $errors;
+}
+
+function isValidTelegramBotToken($botToken)
+{
+    return preg_match('/^\d+:[A-Za-z0-9_-]{20,}$/', (string) $botToken) === 1;
+}
+
+function isPlaceholderConfigValue($value)
+{
+    $normalized = leadLower(trim((string) $value));
+
+    return in_array($normalized, [
+        'bot-token',
+        'chat-id',
+        'replace-with-chat-id',
+        'replace-with-telegram-bot-token',
+        'telegram-bot-token',
+        'telegram-chat-id',
+        'token',
+        'your-bot-token',
+        'your-chat-id',
+    ], true);
 }
 
 function formatTelegramLeadMessage($lead)
@@ -552,13 +650,24 @@ function sendTelegramRequest($botToken, $payload)
     ]);
 
     $responseBody = @file_get_contents($url, false, $context);
-    $status = 0;
+    $status = extractHttpStatus($http_response_header ?? []);
 
     if ($responseBody === false) {
         return 'request failed';
     }
 
     return parseTelegramResponse($responseBody, $status);
+}
+
+function extractHttpStatus($headers)
+{
+    foreach ((array) $headers as $header) {
+        if (preg_match('/^HTTP\/\S+\s+(\d{3})/', (string) $header, $matches) === 1) {
+            return (int) $matches[1];
+        }
+    }
+
+    return 0;
 }
 
 function allowUrlFopenEnabled()
@@ -586,6 +695,48 @@ function valueOrDash($value)
     $text = cleanText($value);
 
     return $text !== '' ? $text : '-';
+}
+
+function formatNotificationUserMessage($errors)
+{
+    if (hasTelegramSetupError($errors)) {
+        return 'Заявка сохранена, но Telegram ещё не подключён на сервере. Добавьте токен бота и chat id в api/leads.config.php.';
+    }
+
+    return 'Заявка сохранена, но Telegram не принял уведомление. Подробности записаны в storage/notification-errors.log.';
+}
+
+function hasTelegramSetupError($errors)
+{
+    foreach ((array) $errors as $error) {
+        $normalized = leadLower(cleanText($error));
+
+        if (
+            strpos($normalized, 'telegram_bot_token') !== false ||
+            strpos($normalized, 'telegram_chat_ids') !== false ||
+            strpos($normalized, 'lead_telegram') !== false ||
+            strpos($normalized, 'неверный формат') !== false
+        ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function formatNotificationFailure($errors)
+{
+    $message = implode('; ', array_map('cleanText', is_array($errors) ? $errors : [$errors]));
+
+    if ($message === '') {
+        return 'Проверьте настройки уведомлений на сервере.';
+    }
+
+    if (leadLength($message) > 350) {
+        return leadSubstr($message, 0, 350) . '...';
+    }
+
+    return $message;
 }
 
 function logNotificationFailure($storageDir, $channel, $errors)

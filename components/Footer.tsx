@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { services } from "@/data/services";
 import { personalDataOperator } from "@/lib/operator";
+import { assetPath } from "@/lib/site-paths";
 
 export function Footer() {
   return (
@@ -8,7 +10,14 @@ export function Footer() {
       <div className="container-page py-12">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr_1fr_1fr]">
           <div className="max-w-sm">
-            <Link href="/" className="inline-flex items-center" aria-label="ДесмосАвто, на главную">
+            <Link href="/" className="inline-flex items-center gap-2" aria-label="ДесмосАвто, на главную">
+              <Image
+                src={assetPath("/images/brand/desmosauto-icon.svg")}
+                alt=""
+                width={328}
+                height={300}
+                className="h-8 w-auto shrink-0"
+              />
               <span className="font-[var(--font-heading)] text-xl font-black">ДесмосАвто</span>
             </Link>
             <p className="mt-3 text-sm leading-6 text-neutral-600">

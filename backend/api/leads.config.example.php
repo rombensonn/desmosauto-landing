@@ -13,7 +13,11 @@ return [
     // Replace before production upload if you want stable, private IP hashes.
     'salt' => 'replace-with-random-private-salt',
 
-    // Optional notifications. Leave blank to only save leads to storage/leads.jsonl.
+    // Keep true for production: the form returns an error if Telegram is missing or fails.
+    // Set false only if you intentionally want to save leads to storage without Telegram.
+    'telegram_required' => true,
+
+    // Notifications.
     'mail_to' => '',
     'telegram_bot_token' => '',
     'telegram_chat_ids' => [],

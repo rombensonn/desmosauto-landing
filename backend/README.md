@@ -2,9 +2,9 @@
 
 Файл `api/leads.php` принимает POST-заявки с сайта, валидирует имя и телефон, проверяет honeypot и сохраняет заявку в `storage/leads.jsonl` относительно корня загруженного сайта.
 
-При необходимости можно включить отправку через локальную почтовую службу сервера переменной `LEAD_MAIL_TO`.
+При необходимости можно включить дополнительную отправку через локальную почтовую службу сервера переменной `LEAD_MAIL_TO`.
 
-Telegram-уведомления отправляются через Bot API после сохранения заявки. Если Telegram временно недоступен или на хостинге нет `curl`, заявка всё равно остаётся в `storage/leads.jsonl`, а ошибка пишется в `storage/notification-errors.log`.
+Telegram-уведомления отправляются через Bot API после сохранения заявки. По умолчанию Telegram обязателен: если токен, chat id или доступ к Telegram API не работают, заявка остаётся в `storage/leads.jsonl`, ошибка пишется в `storage/notification-errors.log`, а сайт показывает ошибку вместо ложного сообщения об успешной отправке.
 
 Для REG.RU Host-0 скопируйте `backend/api/leads.php` в `api/leads.php` в корне сайта. Создайте рядом с сайтом папку `storage` с правом записи для PHP и положите в неё `.htaccess`:
 
@@ -25,6 +25,7 @@ return [
     'storage_dir' => 'storage',
     'salt' => 'уникальная-соль',
     'mail_to' => '',
+    'telegram_required' => true,
     'telegram_bot_token' => '',
     'telegram_chat_ids' => [],
     'telegram_message_thread_id' => '',
@@ -37,6 +38,7 @@ return [
 - `LEAD_STORAGE_DIR` — папка хранения заявок относительно корня сайта, по умолчанию `storage`.
 - `LEAD_SALT` — соль для хеша IP.
 - `LEAD_MAIL_TO` — необязательный адрес для локальной серверной почты.
+- `LEAD_TELEGRAM_REQUIRED` — `true` для продакшена: не показывать пользователю успех, если Telegram не отправился.
 - `LEAD_TELEGRAM_BOT_TOKEN` — токен бота от BotFather.
 - `LEAD_TELEGRAM_CHAT_IDS` — один или несколько chat id через запятую.
 - `LEAD_TELEGRAM_MESSAGE_THREAD_ID` — необязательный id темы, если заявки нужно отправлять в тему Telegram-форума.

@@ -26,7 +26,7 @@ pnpm build
 
 ## PHP-бэкенд формы
 
-Обработчик лежит в `backend/api/leads.php`. Он валидирует имя и телефон, проверяет honeypot, сохраняет заявку в `storage/leads.jsonl` относительно корня загруженного сайта и может отправлять уведомления в Telegram.
+Обработчик лежит в `backend/api/leads.php`. Он валидирует имя и телефон, проверяет honeypot, сохраняет заявку в `storage/leads.jsonl` относительно корня загруженного сайта и отправляет уведомления в Telegram.
 
 Локальная проверка:
 
@@ -38,7 +38,9 @@ php -S 127.0.0.1:8081 -t backend
 
 Для REG.RU Host-0 после `pnpm build` загрузите статический экспорт так, чтобы `index.html`, `_next/`, `api/`, `storage/` и `.htaccess` лежали сразу в корне сайта. Скопируйте `backend/api/leads.php` в `api/leads.php`. Папка `storage/` должна быть доступна PHP на запись; обработчик сам создаёт `storage/leads.jsonl`, `storage/.htaccess` и пустой `storage/index.html`, если прав хватает.
 
-Если на хостинге неудобно задавать переменные окружения, скопируйте `backend/api/leads.config.example.php` в `api/leads.config.php` рядом с обработчиком и заполните нужные значения. Этот файл не должен попадать в публичный репозиторий.
+Если на хостинге неудобно задавать переменные окружения, скопируйте `backend/api/leads.config.example.php` в `api/leads.config.php` рядом с обработчиком и заполните `telegram_bot_token` и `telegram_chat_ids`. Этот файл не должен попадать в публичный репозиторий.
+
+По умолчанию Telegram обязателен: если токен, chat id или доступ к Telegram API не работают, заявка сохраняется в `storage/leads.jsonl`, ошибка пишется в `storage/notification-errors.log`, а сайт показывает ошибку вместо ложного сообщения об успешной отправке.
 
 ## ENV
 
@@ -50,6 +52,7 @@ php -S 127.0.0.1:8081 -t backend
 - `LEAD_STORAGE_DIR` — папка хранения заявок относительно корня сайта, по умолчанию `storage`.
 - `LEAD_SALT` — соль для хеша IP.
 - `LEAD_MAIL_TO` — необязательная локальная серверная почта.
+- `LEAD_TELEGRAM_REQUIRED` — `true` для продакшена: не показывать пользователю успех, если Telegram не отправился.
 - `LEAD_TELEGRAM_BOT_TOKEN` — токен бота от BotFather.
 - `LEAD_TELEGRAM_CHAT_IDS` — один или несколько chat id через запятую.
 - `LEAD_TELEGRAM_MESSAGE_THREAD_ID` — необязательный id темы Telegram-форума.

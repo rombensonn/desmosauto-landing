@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2400" viewBox="0 0 1600 2400">
+  <defs>
+    <filter id="shadowSoft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#080808" flood-opacity="0.06"/>
+    </filter>
+    <filter id="shadowStrong" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="26" flood-color="#080808" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .bg { fill: #f7f7f5; }
+      .ink { fill: #080808; }
+      .text { fill: #101010; font-family: Arial, Helvetica, sans-serif; }
+      .muted { fill: #616161; font-family: Arial, Helvetica, sans-serif; }
+      .whiteText { fill: #ffffff; font-family: Arial, Helvetica, sans-serif; }
+      .title { font-size: 68px; font-weight: 900; letter-spacing: 0; }
+      .h2 { font-size: 38px; font-weight: 900; letter-spacing: 0; }
+      .h3 { font-size: 24px; font-weight: 900; letter-spacing: 0; }
+      .body { font-size: 18px; font-weight: 400; letter-spacing: 0; }
+      .small { font-size: 14px; font-weight: 700; letter-spacing: 0; }
+      .caption { font-size: 12px; font-weight: 800; letter-spacing: 0; }
+      .serif { font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 400; }
+      .line { stroke: #e4e4df; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="2400"/>
+  <rect x="64" y="64" width="1472" height="2272" rx="24" fill="#ffffff" opacity="0.52"/>
+
+  <text x="100" y="150" class="text title">ДесмосАвто</text>
+  <text x="100" y="215" class="text h2">Editorial Studio Design System</text>
+  <text x="100" y="260" class="muted body">Figma-ready система: цвета, типографика, токены, компоненты, семантика и правила визуального языка.</text>
+  <rect x="100" y="310" width="280" height="10" rx="999" fill="#ff5a1f"/>
+
+  <text x="100" y="420" class="text h2">01. Цвета</text>
+  <text x="100" y="458" class="muted body">Активная система: почти черная база, теплый оранжевый акцент, светлый editorial canvas.</text>
+
+  <g id="colors">
+    <g transform="translate(100 500)">
+      <rect width="220" height="96" rx="10" fill="#080808"/>
+      <text x="0" y="126" class="text small">Ink 950</text>
+      <text x="0" y="148" class="muted caption">#080808 / CTA, dark</text>
+    </g>
+    <g transform="translate(350 500)">
+      <rect width="220" height="96" rx="10" fill="#101010"/>
+      <text x="0" y="126" class="text small">Ink 900</text>
+      <text x="0" y="148" class="muted caption">#101010 / text</text>
+    </g>
+    <g transform="translate(600 500)">
+      <rect width="220" height="96" rx="10" fill="#353535"/>
+      <text x="0" y="126" class="text small">Ink 700</text>
+      <text x="0" y="148" class="muted caption">#353535 / secondary</text>
+    </g>
+    <g transform="translate(850 500)">
+      <rect width="220" height="96" rx="10" fill="#ff5a1f"/>
+      <text x="0" y="126" class="text small">Accent</text>
+      <text x="0" y="148" class="muted caption">#FF5A1F / action</text>
+    </g>
+    <g transform="translate(1100 500)">
+      <rect width="220" height="96" rx="10" fill="#fff0e8" stroke="#e4e4df"/>
+      <text x="0" y="126" class="text small">Accent Soft</text>
+      <text x="0" y="148" class="muted caption">#FFF0E8 / chips</text>
+    </g>
+    <g transform="translate(100 700)">
+      <rect width="220" height="96" rx="10" fill="#f7f7f5" stroke="#e4e4df"/>
+      <text x="0" y="126" class="text small">Canvas</text>
+      <text x="0" y="148" class="muted caption">#F7F7F5 / page</text>
+    </g>
+    <g transform="translate(350 700)">
+      <rect width="220" height="96" rx="10" fill="#f1f2f3" stroke="#e4e4df"/>
+      <text x="0" y="126" class="text small">Band</text>
+      <text x="0" y="148" class="muted caption">#F1F2F3 / section</text>
+    </g>
+    <g transform="translate(600 700)">
+      <rect width="220" height="96" rx="10" fill="#ffffff" stroke="#e4e4df"/>
+      <text x="0" y="126" class="text small">Surface</text>
+      <text x="0" y="148" class="muted caption">#FFFFFF / cards</text>
+    </g>
+    <g transform="translate(850 700)">
+      <rect width="220" height="96" rx="10" fill="#e4e4df"/>
+      <text x="0" y="126" class="text small">Line</text>
+      <text x="0" y="148" class="muted caption">#E4E4DF / borders</text>
+    </g>
+    <g transform="translate(1100 700)">
+      <rect width="220" height="96" rx="10" fill="#dc2626"/>
+      <text x="0" y="126" class="text small">Error</text>
+      <text x="0" y="148" class="muted caption">#DC2626 / errors</text>
+    </g>
+  </g>
+
+  <line x1="100" y1="910" x2="1500" y2="910" class="line"/>
+  <text x="100" y="1000" class="text h2">02. Типографика</text>
+  <text x="100" y="1060" class="text" style="font-size:56px;font-weight:900;">Сайт как цифровой <tspan class="serif">администратор</tspan></text>
+  <text x="100" y="1120" class="muted body">Hero / 72 desktop, 40 mobile, font-weight 950, line-height около 0.98</text>
+  <text x="100" y="1210" class="text" style="font-size:42px;font-weight:900;">Демо сайта за сутки без предоплаты</text>
+  <text x="100" y="1255" class="muted body">Heading / 48 desktop, 30 mobile, bold editorial rhythm</text>
+  <text x="100" y="1335" class="text body">Клиент заранее понимает услуги, сроки, гарантии и порядок записи. Администратор меньше объясняет одно и то же по телефону.</text>
+  <text x="100" y="1380" class="muted body">Body / 16-18px, line-height 1.6-1.75, letter spacing 0</text>
+
+  <line x1="100" y1="1470" x2="1500" y2="1470" class="line"/>
+  <text x="100" y="1560" class="text h2">03. Компоненты</text>
+
+  <g id="buttons" transform="translate(100 1620)">
+    <text x="0" y="0" class="text h3">Buttons</text>
+    <rect x="0" y="34" width="230" height="56" rx="28" fill="#080808"/>
+    <text x="38" y="69" class="whiteText small">Получить демо</text>
+    <rect x="260" y="34" width="210" height="56" rx="28" fill="#ff5a1f"/>
+    <text x="335" y="69" class="whiteText small">Hover</text>
+    <rect x="500" y="34" width="220" height="56" rx="28" fill="#ffffff" stroke="#e4e4df"/>
+    <text x="548" y="69" class="text small">Смотреть кейсы</text>
+  </g>
+
+  <g id="form" transform="translate(100 1790)">
+    <rect width="560" height="420" rx="8" fill="#ffffff" stroke="#e4e4df" filter="url(#shadowSoft)"/>
+    <text x="36" y="58" class="text h3">Lead form</text>
+    <text x="36" y="110" class="text small">Имя</text>
+    <rect x="36" y="126" width="488" height="56" rx="8" fill="#ffffff" stroke="#d4d4d8"/>
+    <text x="60" y="161" class="muted body">Как к вам обращаться</text>
+    <text x="36" y="222" class="text small">Телефон</text>
+    <rect x="36" y="238" width="488" height="56" rx="8" fill="#ffffff" stroke="#080808"/>
+    <text x="60" y="273" class="text body">+7 (999) 999 99-99</text>
+    <rect x="36" y="328" width="488" height="60" rx="30" fill="#080808"/>
+    <text x="175" y="366" class="whiteText small">Получить демо за сутки</text>
+  </g>
+
+  <g id="cards" transform="translate(740 1790)">
+    <rect width="320" height="230" rx="8" fill="#ffffff" stroke="#e4e4df" filter="url(#shadowSoft)"/>
+    <circle cx="48" cy="48" r="22" fill="#080808"/>
+    <text x="36" y="112" class="text h3">Структура услуг</text>
+    <text x="36" y="150" class="muted body">Сайт отвечает на повторяющиеся вопросы до звонка.</text>
+
+    <rect x="380" width="360" height="330" rx="14" fill="#ffffff" stroke="#e4e4df" filter="url(#shadowSoft)"/>
+    <rect x="404" y="24" width="312" height="150" rx="12" fill="#f1f2f3"/>
+    <circle cx="430" cy="50" r="8" fill="#ef5a24"/>
+    <text x="404" y="212" class="muted caption">СТО / landing / Москва</text>
+    <text x="404" y="248" class="text h3">Автосервис под запись</text>
+    <text x="404" y="286" class="muted body">Кейс как доказательство, не декор.</text>
+  </g>
+
+  <line x1="100" y1="2240" x2="1500" y2="2240" class="line"/>
+  <text x="100" y="2300" class="muted body">Правило: DesmosAuto не выглядит как шаблонная веб-студия. Это специализированная система для авто-бизнеса: меньше хаоса в коммуникации, больше доверия и подготовленных заявок.</text>
+</svg>
+

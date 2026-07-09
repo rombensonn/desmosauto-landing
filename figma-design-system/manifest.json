@@ -1,0 +1,9 @@
+{
+  "name": "DesmosAuto Design System Builder",
+  "id": "desmosauto-design-system-builder",
+  "api": "1.0.0",
+  "main": "figma-plugin-create-design-system.js",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page"
+}
+

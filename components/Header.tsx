@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { Menu, Wrench, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { CleanAnchorLink } from "@/components/CleanAnchorLink";
+import { assetPath } from "@/lib/site-paths";
 
 const navItems = [
   { label: "Главная", href: "/" },
@@ -30,9 +32,14 @@ export function Header() {
       </CleanAnchorLink>
       <div className="container-page flex min-h-16 items-center justify-between gap-4">
         <Link href="/" className="flex min-h-12 items-center gap-2" aria-label="ДесмосАвто, на главную">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-950 text-white">
-            <Wrench aria-hidden="true" size={16} />
-          </span>
+          <Image
+            src={assetPath("/images/brand/desmosauto-icon.svg")}
+            alt=""
+            width={328}
+            height={300}
+            priority
+            className="h-8 w-auto shrink-0"
+          />
           <span className="font-[var(--font-heading)] text-lg font-black text-neutral-950">ДесмосАвто</span>
         </Link>
 

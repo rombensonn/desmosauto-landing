@@ -1,0 +1,183 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "name": "DesmosAuto Editorial Studio",
+  "version": "1.0.0",
+  "description": "W3C-style design tokens for the active DesmosAuto editorial/SaaS design system.",
+  "color": {
+    "$type": "color",
+    "ink": {
+      "950": { "$value": "#080808", "$description": "Primary ink, CTA, dark sections" },
+      "900": { "$value": "#101010", "$description": "Main foreground text" },
+      "700": { "$value": "#353535", "$description": "Secondary text" },
+      "500": { "$value": "#616161", "$description": "Muted labels" }
+    },
+    "white": { "$value": "#FFFFFF" },
+    "canvas": { "$value": "#F7F7F5" },
+    "background": { "$value": "#F6F7F8" },
+    "band": { "$value": "#F1F2F3" },
+    "surface": { "$value": "#FFFFFF" },
+    "muted": { "$value": "#F0F1F2" },
+    "mutedStrong": { "$value": "#D9DADB" },
+    "border": { "$value": "#E2E2DF" },
+    "line": { "$value": "#E4E4DF" },
+    "accent": {
+      "default": { "$value": "#FF5A1F" },
+      "strong": { "$value": "#E44810" },
+      "soft": { "$value": "#FFF0E8" }
+    },
+    "blue": { "$value": "#2667FF" },
+    "green": { "$value": "#14A76C" },
+    "success": { "$value": "#0F8F5F" },
+    "destructive": { "$value": "#DC2626" },
+    "projects": {
+      "ink": { "$value": "#10100F" },
+      "muted": { "$value": "#63635F" },
+      "accent": { "$value": "#EF5A24" },
+      "accentSoft": { "$value": "#FFF0E8" }
+    },
+    "semantic": {
+      "bg": {
+        "page": { "$value": "{color.canvas}" },
+        "pageGradientStart": { "$value": "#FBFBFA" },
+        "sectionSoft": { "$value": "{color.band}" },
+        "sectionDark": { "$value": "{color.ink.950}" }
+      },
+      "surface": {
+        "primary": { "$value": "{color.surface}" },
+        "translucent": { "$value": "rgba(255,255,255,0.94)" },
+        "dark": { "$value": "#141414" }
+      },
+      "text": {
+        "primary": { "$value": "{color.ink.900}" },
+        "secondary": { "$value": "{color.ink.700}" },
+        "muted": { "$value": "{color.ink.500}" },
+        "inverse": { "$value": "{color.white}" },
+        "inverseMuted": { "$value": "rgba(255,255,255,0.72)" }
+      },
+      "border": {
+        "default": { "$value": "{color.line}" },
+        "soft": { "$value": "rgba(8,8,8,0.10)" },
+        "interactive": { "$value": "rgba(8,8,8,0.16)" },
+        "focus": { "$value": "{color.ink.950}" }
+      },
+      "cta": {
+        "primaryBg": { "$value": "{color.ink.950}" },
+        "primaryHover": { "$value": "{color.accent.default}" },
+        "primaryText": { "$value": "{color.white}" }
+      },
+      "status": {
+        "errorText": { "$value": "#B91C1C" },
+        "errorBg": { "$value": "#FEF2F2" },
+        "errorBorder": { "$value": "#FECACA" },
+        "successText": { "$value": "#166534" },
+        "successBg": { "$value": "#F0FDF4" },
+        "successBorder": { "$value": "#BBF7D0" }
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "heading": { "$value": "Arial, Helvetica Neue, system-ui, sans-serif" },
+      "body": { "$value": "Arial, Helvetica Neue, system-ui, sans-serif" },
+      "serif": { "$value": "Georgia, Times New Roman, serif" },
+      "mono": { "$value": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": { "$value": 400 },
+      "bold": { "$value": 700 },
+      "extraBold": { "$value": 850 },
+      "black": { "$value": 950 }
+    },
+    "size": {
+      "$type": "dimension",
+      "caption": { "$value": "12px" },
+      "small": { "$value": "14px" },
+      "base": { "$value": "16px" },
+      "large": { "$value": "18px" },
+      "cardHeading": { "$value": "24px" },
+      "sectionMobile": { "$value": "30px" },
+      "heroMobile": { "$value": "40px" },
+      "section": { "$value": "48px" },
+      "hero": { "$value": "72px" }
+    },
+    "lineHeight": {
+      "$type": "dimension",
+      "caption": { "$value": "14px" },
+      "small": { "$value": "22px" },
+      "base": { "$value": "26px" },
+      "large": { "$value": "32px" },
+      "cardHeading": { "$value": "30px" },
+      "section": { "$value": "52px" },
+      "hero": { "$value": "70px" }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "1": { "$value": "4px" },
+    "2": { "$value": "8px" },
+    "3": { "$value": "12px" },
+    "4": { "$value": "16px" },
+    "5": { "$value": "20px" },
+    "6": { "$value": "24px" },
+    "8": { "$value": "32px" },
+    "10": { "$value": "40px" },
+    "12": { "$value": "48px" },
+    "16": { "$value": "64px" },
+    "18": { "$value": "72px" },
+    "24": { "$value": "96px" },
+    "31": { "$value": "124px" }
+  },
+  "radius": {
+    "$type": "dimension",
+    "none": { "$value": "0px" },
+    "sm": { "$value": "8px" },
+    "md": { "$value": "14px" },
+    "lg": { "$value": "18px" },
+    "pill": { "$value": "999px" }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "saasSoft": { "$value": "0 10px 28px rgba(8,8,8,0.06)" },
+    "saas": { "$value": "0 18px 52px rgba(8,8,8,0.10)" },
+    "reference": { "$value": "0 24px 80px rgba(8,8,8,0.12)" },
+    "projectsSoft": { "$value": "0 16px 44px rgba(20,20,18,0.075)" },
+    "projects": { "$value": "0 28px 90px rgba(20,20,18,0.11)" }
+  },
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "fast": { "$value": "160ms" },
+      "base": { "$value": "180ms" },
+      "medium": { "$value": "220ms" },
+      "reveal": { "$value": "700ms" },
+      "marquee": { "$value": "28s" }
+    },
+    "ease": {
+      "$type": "cubicBezier",
+      "standard": { "$value": "ease" },
+      "out": { "$value": "cubic-bezier(0.22, 1, 0.36, 1)" }
+    }
+  },
+  "layout": {
+    "container": {
+      "$type": "dimension",
+      "max": { "$value": "1280px" },
+      "mobileInset": { "$value": "16px" }
+    },
+    "header": {
+      "$type": "dimension",
+      "height": { "$value": "64px" }
+    },
+    "cta": {
+      "$type": "dimension",
+      "minHeight": { "$value": "48px" }
+    },
+    "form": {
+      "$type": "dimension",
+      "inputHeight": { "$value": "48px" }
+    }
+  }
+}
+

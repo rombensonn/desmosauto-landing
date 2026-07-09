@@ -2,7 +2,7 @@
 
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { validateLeadInput } from "@/lib/validation";
 
 type LeadFormProps = {
@@ -14,6 +14,11 @@ type LeadFormProps = {
 type FormErrors = Partial<
   Record<"name" | "phone" | "privacyPolicyAccepted" | "personalDataConsent" | "form", string>
 >;
+type FormErrorKey = keyof FormErrors;
+type PhoneFormatResult = {
+  value: string;
+  caretPosition?: number;
+};
 
 const initialFields = {
   name: "",
@@ -23,24 +28,49 @@ const initialFields = {
   personalDataConsent: false
 };
 
+const russianPhoneLocalDigitsLimit = 10;
+
 function getDraftKey(source: string) {
   return `desmosauto:lead-draft:${source}`;
 }
 
-function formatRussianPhone(value: string): string {
-  let digits = value.replace(/\D/g, "");
+function getRussianPhoneDigits(value: string) {
+  return value.replace(/\D/g, "");
+}
 
-  if (digits.startsWith("8")) {
-    digits = `7${digits.slice(1)}`;
-  }
+function hasRussianCountryPrefix(digits: string) {
+  return digits.startsWith("7") || digits.startsWith("8");
+}
 
-  if (digits.startsWith("7")) {
-    digits = digits.slice(1);
-  }
-
-  digits = digits.slice(0, 10);
+function getRussianPhoneLocalDigits(value: string) {
+  const digits = getRussianPhoneDigits(value);
 
   if (!digits) {
+    return "";
+  }
+
+  if (hasRussianCountryPrefix(digits)) {
+    return digits.slice(1, russianPhoneLocalDigitsLimit + 1);
+  }
+
+  return digits.slice(0, russianPhoneLocalDigitsLimit);
+}
+
+function shouldShowRussianPhonePrefix(value: string, localDigits: string) {
+  const digits = getRussianPhoneDigits(value);
+  const trimmedValue = value.trim();
+
+  return (
+    Boolean(localDigits) ||
+    digits === "7" ||
+    digits === "8" ||
+    trimmedValue === "+7" ||
+    trimmedValue === "+7 ("
+  );
+}
+
+function formatRussianPhoneDigits(digits: string, showPrefix = Boolean(digits)): string {
+  if (!digits && !showPrefix) {
     return "";
   }
 
@@ -74,6 +104,103 @@ function formatRussianPhone(value: string): string {
   }
 
   return phone;
+}
+
+function formatRussianPhone(value: string): string {
+  const localDigits = getRussianPhoneLocalDigits(value);
+
+  return formatRussianPhoneDigits(localDigits, shouldShowRussianPhonePrefix(value, localDigits));
+}
+
+function getLocalDigitOffsetBeforeCaret(value: string, caretPosition: number | null) {
+  const safeCaretPosition = caretPosition ?? value.length;
+  const digits = getRussianPhoneDigits(value);
+  const digitsBeforeCaret = getRussianPhoneDigits(value.slice(0, safeCaretPosition));
+  const countryPrefixOffset =
+    hasRussianCountryPrefix(digits) && digitsBeforeCaret.length > 0 ? 1 : 0;
+
+  return Math.max(0, digitsBeforeCaret.length - countryPrefixOffset);
+}
+
+function removeDigitAtIndex(digits: string, index: number) {
+  return `${digits.slice(0, index)}${digits.slice(index + 1)}`;
+}
+
+function getCaretPositionForLocalDigitOffset(value: string, localDigitOffset: number) {
+  if (!value) {
+    return 0;
+  }
+
+  if (localDigitOffset <= 0) {
+    const codeStartIndex = value.indexOf("(");
+
+    return codeStartIndex === -1 ? value.length : codeStartIndex + 1;
+  }
+
+  const digits = getRussianPhoneDigits(value);
+  const skipsCountryPrefix = hasRussianCountryPrefix(digits);
+  let hasSkippedCountryPrefix = false;
+  let localDigitsSeen = 0;
+
+  for (let index = 0; index < value.length; index += 1) {
+    if (!/\d/.test(value[index])) {
+      continue;
+    }
+
+    if (skipsCountryPrefix && !hasSkippedCountryPrefix) {
+      hasSkippedCountryPrefix = true;
+      continue;
+    }
+
+    localDigitsSeen += 1;
+
+    if (localDigitsSeen >= localDigitOffset) {
+      return index + 1;
+    }
+  }
+
+  return value.length;
+}
+
+function formatRussianPhoneAfterInput(
+  value: string,
+  previousValue: string,
+  inputType: string,
+  caretPosition: number | null
+): PhoneFormatResult {
+  const nextValue = formatRussianPhone(value);
+
+  if (!inputType.startsWith("delete")) {
+    return { value: nextValue };
+  }
+
+  const previousLocalDigits = getRussianPhoneLocalDigits(previousValue);
+  const nextLocalDigits = getRussianPhoneLocalDigits(value);
+  const localDigitOffset = getLocalDigitOffsetBeforeCaret(value, caretPosition);
+
+  if (nextValue !== previousValue || value.length >= previousValue.length) {
+    return {
+      value: nextValue,
+      caretPosition:
+        previousLocalDigits.length > nextLocalDigits.length
+          ? getCaretPositionForLocalDigitOffset(nextValue, localDigitOffset)
+          : undefined
+    };
+  }
+
+  if (!previousLocalDigits || previousLocalDigits.length !== nextLocalDigits.length) {
+    return { value: nextValue };
+  }
+
+  const removeIndex = Math.min(previousLocalDigits.length - 1, Math.max(0, localDigitOffset - 1));
+  const reducedDigits = removeDigitAtIndex(previousLocalDigits, removeIndex);
+  const formattedValue = formatRussianPhoneDigits(reducedDigits, Boolean(reducedDigits));
+  const nextLocalDigitOffset = localDigitOffset === 0 ? 0 : localDigitOffset - 1;
+
+  return {
+    value: formattedValue,
+    caretPosition: getCaretPositionForLocalDigitOffset(formattedValue, nextLocalDigitOffset)
+  };
 }
 
 function getLeadContext() {
@@ -119,8 +246,23 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const phoneInputRef = useRef<HTMLInputElement>(null);
+  const nextPhoneCaretPositionRef = useRef<number | null>(null);
   const endpoint = process.env.NEXT_PUBLIC_LEAD_ENDPOINT || "/api/leads.php";
   const draftKey = getDraftKey(source);
+
+  useLayoutEffect(() => {
+    const nextPhoneCaretPosition = nextPhoneCaretPositionRef.current;
+    nextPhoneCaretPositionRef.current = null;
+    const phoneInput = phoneInputRef.current;
+
+    if (nextPhoneCaretPosition === null || !phoneInput || document.activeElement !== phoneInput) {
+      return;
+    }
+
+    const safeCaretPosition = Math.min(nextPhoneCaretPosition, fields.phone.length);
+    phoneInput.setSelectionRange(safeCaretPosition, safeCaretPosition);
+  }, [fields.phone]);
 
   useEffect(() => {
     let frameId = 0;
@@ -185,6 +327,38 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
 
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
+  }
+
+  function clearErrors(...keys: FormErrorKey[]) {
+    setErrors((current) => {
+      let hasChanges = false;
+      const nextErrors = { ...current };
+
+      for (const key of keys) {
+        if (nextErrors[key]) {
+          delete nextErrors[key];
+          hasChanges = true;
+        }
+      }
+
+      return hasChanges ? nextErrors : current;
+    });
+  }
+
+  function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
+    const { selectionStart, value } = event.target;
+    const inputType = "inputType" in event.nativeEvent ? String(event.nativeEvent.inputType) : "";
+
+    setFields((current) => ({
+      ...current,
+      phone: (() => {
+        const nextPhone = formatRussianPhoneAfterInput(value, current.phone, inputType, selectionStart);
+        nextPhoneCaretPositionRef.current = nextPhone.caretPosition ?? null;
+
+        return nextPhone.value;
+      })()
+    }));
+    clearErrors("phone");
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -273,8 +447,10 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
             type="text"
             autoComplete="name"
             value={fields.name}
-            onBlur={validateCurrentFields}
-            onChange={(event) => setFields((current) => ({ ...current, name: event.target.value }))}
+            onChange={(event) => {
+              setFields((current) => ({ ...current, name: event.target.value }));
+              clearErrors("name");
+            }}
             className="min-h-12 w-full rounded-lg border border-neutral-300 bg-white px-4 text-base text-neutral-950 transition-colors placeholder:text-neutral-400 focus:border-neutral-950 focus:bg-white"
             placeholder="Как к вам обращаться"
             aria-invalid={Boolean(errors.name)}
@@ -297,11 +473,9 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
             type="tel"
             inputMode="tel"
             autoComplete="tel"
+            ref={phoneInputRef}
             value={fields.phone}
-            onBlur={validateCurrentFields}
-            onChange={(event) =>
-              setFields((current) => ({ ...current, phone: formatRussianPhone(event.target.value) }))
-            }
+            onChange={handlePhoneChange}
             className="min-h-12 w-full rounded-lg border border-neutral-300 bg-white px-4 text-base text-neutral-950 transition-colors placeholder:text-neutral-400 focus:border-neutral-950 focus:bg-white"
             placeholder="+7 (999) 999 99-99"
             maxLength={18}
@@ -324,9 +498,10 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
           id={`${source}-privacy-policy-accepted`}
           type="checkbox"
           checked={fields.privacyPolicyAccepted}
-          onChange={(event) =>
-            setFields((current) => ({ ...current, privacyPolicyAccepted: event.target.checked }))
-          }
+          onChange={(event) => {
+            setFields((current) => ({ ...current, privacyPolicyAccepted: event.target.checked }));
+            clearErrors("privacyPolicyAccepted");
+          }}
           className="mt-1 h-5 w-5 shrink-0 rounded border-neutral-300 accent-neutral-950"
           aria-invalid={Boolean(errors.privacyPolicyAccepted)}
           aria-labelledby={`${source}-privacy-policy-label`}
@@ -359,9 +534,10 @@ export function LeadForm({ submitLabel = "Получить демо за сут�
           id={`${source}-personal-data-consent`}
           type="checkbox"
           checked={fields.personalDataConsent}
-          onChange={(event) =>
-            setFields((current) => ({ ...current, personalDataConsent: event.target.checked }))
-          }
+          onChange={(event) => {
+            setFields((current) => ({ ...current, personalDataConsent: event.target.checked }));
+            clearErrors("personalDataConsent");
+          }}
           className="mt-1 h-5 w-5 shrink-0 rounded border-neutral-300 accent-neutral-950"
           aria-invalid={Boolean(errors.personalDataConsent)}
           aria-labelledby={`${source}-personal-data-label`}

@@ -1,8 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="ДесмосАвто — сайты для автосервисов">
   <rect width="1200" height="630" fill="#F8FAFC"/>
   <rect x="80" y="70" width="1040" height="490" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
-  <rect x="130" y="125" width="116" height="116" rx="24" fill="#0F172A"/>
-  <text x="160" y="197" font-family="Arial, sans-serif" font-size="44" font-weight="900" fill="#FFFFFF">ДА</text>
+  <g transform="translate(130 125) scale(0.3536585366)">
+    <path d="M136 0H0V136H136V0Z" fill="#080808"/>
+    <path d="M164 0H224C306 0 328 54 328 136H164V0Z" fill="#080808"/>
+    <path d="M164 300H226C306 300 328 246 328 164C242 166 186 218 164 300Z" fill="#080808"/>
+    <path d="M136 164H0V300H136V164Z" fill="#FF5A1F"/>
+  </g>
   <text x="280" y="165" font-family="Arial, sans-serif" font-size="42" font-weight="800" fill="#2563EB">ДесмосАвто</text>
   <text x="280" y="230" font-family="Arial, sans-serif" font-size="54" font-weight="900" fill="#020617">Сайт за сутки</text>
   <text x="280" y="292" font-family="Arial, sans-serif" font-size="32" font-weight="500" fill="#334155">Без предоплаты, 120 рабочих кейсов</text>

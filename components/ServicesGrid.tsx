@@ -10,11 +10,12 @@ import type { Service } from "@/data/services";
 type ServicesGridProps = {
   services: Service[];
   serviceModels: Record<string, string>;
+  variant?: "grid" | "list";
 };
 
 const detailEase = [0.16, 1, 0.3, 1] as const;
 
-export function ServicesGrid({ services, serviceModels }: ServicesGridProps) {
+export function ServicesGrid({ services, serviceModels, variant = "grid" }: ServicesGridProps) {
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -132,8 +133,71 @@ export function ServicesGrid({ services, serviceModels }: ServicesGridProps) {
 
   return (
     <>
-      <div className="services-auto-grid" data-gsap-card-group>
+      <div className={variant === "list" ? "services-auto-list" : "services-auto-grid"} data-gsap-card-group>
         {services.map((service, index) => {
+          if (variant === "list") {
+            return (
+              <article
+                key={service.id}
+                data-service-id={service.id}
+                className="surface service-list-card"
+                data-gsap-card
+              >
+                <span className="service-list-index">0{index + 1}</span>
+
+                <div className="service-list-copy">
+                  <p className="service-detail-label">Формат сайта</p>
+                  <h3 className="mt-3 font-[var(--font-heading)] text-3xl font-black leading-tight text-neutral-950 md:text-4xl">
+                    {service.title}
+                  </h3>
+                  <p className="mt-4 max-w-xl text-base leading-7 text-neutral-700">{service.description}</p>
+
+                  <div className="service-list-meta">
+                    <div className="service-list-fit">
+                      <p className="service-detail-label">Подходит</p>
+                      <p>{service.bestFor}</p>
+                    </div>
+                    <ul className="service-detail-list service-list-points">
+                      {service.included.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="service-list-actions">
+                    <Link className="service-toggle-button" href={`/services/${service.id}`}>
+                      <span>Страница услуги</span>
+                      <ArrowRight aria-hidden="true" size={16} />
+                    </Link>
+                    <button
+                      type="button"
+                      className="service-toggle-button"
+                      data-service-action="open-modal"
+                      aria-haspopup="dialog"
+                      onClick={() => setSelectedServiceId(service.id)}
+                    >
+                      <span>Подробнее о сайте</span>
+                      <ArrowRight aria-hidden="true" size={16} />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="service-list-visual" aria-hidden="true">
+                  <Image
+                    src={serviceModels[service.id]}
+                    alt=""
+                    width={620}
+                    height={440}
+                    className="service-list-image pointer-events-none"
+                    sizes="(min-width: 1024px) 34vw, (min-width: 640px) 42vw, 92vw"
+                    aria-hidden="true"
+                    unoptimized
+                  />
+                </div>
+              </article>
+            );
+          }
+
           return (
             <article
               key={service.id}
