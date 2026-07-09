@@ -12,4 +12,4 @@
 :HL["/desmosauto-landing/_next/static/media/aa_stetica_regular_italic-s.p.01zjuo6luitz7.otf","font",{"crossOrigin":"","type":"font/otf"}]
 :HL["/desmosauto-landing/_next/static/media/d3fe2f289711ac3f-s.p.1l2zhvq5eocqf.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/desmosauto-landing/_next/static/chunks/3hf_rwue9vy29.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"rDjjevAlPp2Le90wsVWPI"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"mnf7wRD3BYyhwd8SucXZN"}
