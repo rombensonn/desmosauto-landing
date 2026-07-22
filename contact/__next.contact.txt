@@ -1,5 +1,5 @@
 1:"$Sreact.fragment"
-2:I[89135,["/desmosauto-landing/_next/static/chunks/1rfs7ou6141u8.js","/desmosauto-landing/_next/static/chunks/04ikz47n9c2nk.js"],"default"]
-3:I[79909,["/desmosauto-landing/_next/static/chunks/1rfs7ou6141u8.js","/desmosauto-landing/_next/static/chunks/04ikz47n9c2nk.js"],"default"]
+2:I[89135,["/_next/static/chunks/1isw0lv95xlvy.js","/_next/static/chunks/04ikz47n9c2nk.js","/_next/static/chunks/3-wp8-e8q_fz9.js"],"default"]
+3:I[79909,["/_next/static/chunks/1isw0lv95xlvy.js","/_next/static/chunks/04ikz47n9c2nk.js","/_next/static/chunks/3-wp8-e8q_fz9.js"],"default"]
 4:[]
-0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"nErW_BwRxAtB33GrL7BgP"}
+0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"wvXCGMG0l8oCpUTSSGOkF"}

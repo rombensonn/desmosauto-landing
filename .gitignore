@@ -14,3 +14,20 @@ tsconfig.tsbuildinfo
 backend/api/leads.config.php
 api/leads.config.php
 backend/storage/
+
+# Local QA artifacts and browser profiles
+.codex-dev/
+test-results/
+
+# Deployment archives are generated artifacts
+*.zip
+
+# Internal working materials that are not part of the public website
+AGENTS/
+BEHANCE_PORTFOLIO_STRATEGY.md
+KWORK_SUBMISSION_LOG.md
+behance-portfolio/
+
+# Never publish collected leads or runtime logs
+storage/*
+!storage/index.html

@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /
 
-Sitemap: https://rombensonn.github.io/desmosauto-landing/sitemap.xml
+Sitemap: https://desmosauto.ru/sitemap.xml
